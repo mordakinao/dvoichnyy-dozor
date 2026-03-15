@@ -3,18 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Двоичный дозор - Информатика 7-9 класс</title>
+    <title>Двоичный дозор</title>
     <style>
-        /* ========== СТИЛИ ========== */
         * {
-            box-sizing: border-box;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
         }
         
         body {
             font-family: 'Courier New', monospace;
-            background: linear-gradient(135deg, #0a0f1e 0%, #1a2a3f 100%);
+            background: #0a1a2a;
             color: #00ffaa;
             min-height: 100vh;
             display: flex;
@@ -24,295 +23,219 @@
         }
         
         .container {
-            max-width: 1300px;
+            max-width: 1200px;
             width: 100%;
-            background: rgba(15, 26, 47, 0.95);
+            background: #0f1a2f;
             border: 3px solid #00ffaa;
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 0 50px rgba(0, 255, 170, 0.4);
+            box-shadow: 0 0 30px #00ffaa;
         }
         
         h1 {
             text-align: center;
             font-size: 3rem;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            text-shadow: 0 0 20px #00ffaa;
+            margin-bottom: 30px;
             color: #fff;
+            text-shadow: 0 0 15px #00ffaa;
         }
         
-        .subtitle {
+        /* КНОПКА ЗВУКА - САМАЯ ГЛАВНАЯ */
+        .sound-section {
             text-align: center;
-            color: #aaddcc;
-            margin-bottom: 20px;
-            font-size: 1.2rem;
-            border-bottom: 2px dashed #00ffaa;
-            padding-bottom: 10px;
+            margin-bottom: 30px;
         }
         
-        /* ========== КНОПКА ЗВУКА ========== */
-        #soundButton {
-            background: #332200;
-            border: 3px solid #ffaa00;
+        #soundBtn {
+            background: #ffaa00;
+            border: none;
             border-radius: 60px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            text-align: center;
-            color: #ffaa00;
+            padding: 20px 40px;
+            font-size: 2rem;
             font-weight: bold;
-            font-size: 1.3rem;
+            color: #000;
             cursor: pointer;
-            transition: all 0.3s;
+            box-shadow: 0 0 30px #ffaa00;
+            border: 3px solid white;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
         }
         
-        #soundButton:hover {
-            background: #443300;
+        #soundBtn:hover {
+            background: #ffbb22;
             transform: scale(1.02);
         }
         
-        #soundButton.active {
-            background: #00aa44;
-            border-color: #00ffaa;
-            color: white;
+        #soundBtn.active {
+            background: #00ffaa;
+            box-shadow: 0 0 30px #00ffaa;
         }
         
-        /* Статистика */
-        .stats-panel {
+        .stats {
             display: flex;
             justify-content: space-around;
-            background: #0f1a2f;
-            border: 2px solid #00ffaa;
-            border-radius: 50px;
-            padding: 15px;
-            margin-bottom: 25px;
+            background: #1a2a3f;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 30px;
+            font-size: 1.5rem;
         }
         
-        .stat-item {
+        .task {
+            background: #1a2a3f;
+            border: 3px solid #00ffaa;
+            border-radius: 30px;
+            padding: 30px;
+            margin-bottom: 30px;
             text-align: center;
         }
         
-        .stat-label {
-            color: #88ccbb;
-            font-size: 0.9rem;
-        }
-        
-        .stat-value {
-            font-size: 2rem;
+        .task-text {
+            font-size: 2.5rem;
             color: #fff;
-            font-weight: bold;
-        }
-        
-        /* Режимы */
-        .mode-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 10px;
             margin-bottom: 20px;
         }
         
-        .mode-card {
-            background: #0f1a2f;
-            border: 2px solid #2a4a5a;
-            border-radius: 15px;
-            padding: 15px;
-            text-align: center;
-            cursor: pointer;
-            color: #aaddcc;
-            font-weight: bold;
-        }
-        
-        .mode-card.active {
-            border-color: #00ffaa;
-            background: #1a3a4a;
-            color: #fff;
-        }
-        
-        /* Задание */
-        .task-panel {
-            background: #0f1a2f;
-            border: 3px solid #00ffaa;
-            border-radius: 30px;
-            padding: 25px;
-            margin: 20px 0;
-            text-align: center;
-        }
-        
-        .task-main {
-            font-size: 2rem;
-            color: #fff;
-            margin: 15px 0;
-        }
-        
-        /* Биты */
-        .bits-container {
+        .bits {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 20px;
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .bit {
-            flex: 1 1 80px;
-            min-width: 80px;
-            height: 100px;
+            width: 100px;
+            height: 120px;
+            background: #1a2a3f;
+            border: 3px solid #2a4a5a;
+            border-radius: 20px;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: #0f1a2f;
-            border: 3px solid #2a4a5a;
-            border-radius: 15px;
             font-size: 2rem;
+            font-weight: bold;
             cursor: pointer;
-            color: #aaddcc;
+            box-shadow: 0 5px 0 #0a1a2a;
         }
         
         .bit.active {
             background: #00ffaa;
             border-color: #fff;
-            color: #0a1a2a;
+            color: #000;
+            box-shadow: 0 0 30px #00ffaa;
         }
         
-        /* Кнопки */
-        .control-panel {
+        .bit small {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .buttons {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             justify-content: center;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
         
         .btn {
-            padding: 15px 30px;
-            font-size: 1.2rem;
+            padding: 20px 40px;
+            font-size: 1.5rem;
+            font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
-            font-weight: bold;
-        }
-        
-        .btn-check {
-            background: #00ffaa;
-            color: #0a1a2a;
-        }
-        
-        .btn-hint {
             background: #1a2a3f;
             color: #00ffaa;
             border: 2px solid #00ffaa;
         }
         
-        /* Статус */
+        .btn-check {
+            background: #00ffaa;
+            color: #000;
+        }
+        
         .status {
+            background: #1a2a3f;
+            border-radius: 30px;
+            padding: 20px;
+            text-align: center;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+        
+        .hint {
+            background: #332200;
+            color: #ffaa00;
             padding: 15px;
+            border-radius: 30px;
             text-align: center;
             font-size: 1.3rem;
-            border-radius: 50px;
-            background: #0f1a2f;
-            border: 2px solid #2a4a5a;
-            margin-bottom: 15px;
-        }
-        
-        .status.success {
-            background: #4CAF50;
-            color: white;
-        }
-        
-        .status.error {
-            background: #f44336;
-            color: white;
-        }
-        
-        .keyboard-hint {
-            background: #1a2a3f;
-            border: 2px solid #00ffaa;
-            border-radius: 40px;
-            padding: 12px;
-            text-align: center;
-            color: #aaddcc;
-        }
-        
-        .key {
-            background: #0a1a2a;
-            border: 2px solid #00ffaa;
-            border-radius: 8px;
-            padding: 3px 10px;
-            margin: 0 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
-        <div class="subtitle">информатика 7-9 классы</div>
         
-        <!-- КНОПКА ЗВУКА -->
-        <div id="soundButton">🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК</div>
-        
-        <!-- Статистика -->
-        <div class="stats-panel">
-            <div class="stat-item"><span class="stat-label">ОЧКИ</span><br><span class="stat-value" id="score">0</span></div>
-            <div class="stat-item"><span class="stat-label">УРОВЕНЬ</span><br><span class="stat-value" id="level">1</span></div>
-            <div class="stat-item"><span class="stat-label">РЕШЕНО</span><br><span class="stat-value" id="solved">0</span></div>
+        <!-- КНОПКА ЗВУКА - ОГРОМНАЯ, ПЕРВАЯ, ВИДНАЯ -->
+        <div class="sound-section">
+            <button id="soundBtn">🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК</button>
         </div>
         
-        <!-- Режимы -->
-        <div class="mode-grid">
-            <div class="mode-card active" onclick="setMode('binary7', this)">7 класс: Двоичная система</div>
-            <div class="mode-card" onclick="setMode('logic8', this)">8 класс: Логика</div>
-            <div class="mode-card" onclick="setMode('oge9', this)">9 класс: ОГЭ</div>
+        <!-- Статистика -->
+        <div class="stats">
+            <div>ОЧКИ: <span id="score">0</span></div>
+            <div>УРОВЕНЬ: <span id="level">1</span></div>
+            <div>РЕШЕНО: <span id="solved">0</span></div>
         </div>
         
         <!-- Задание -->
-        <div class="task-panel">
-            <div id="taskMain">Переведи 156 в двоичную систему</div>
-            <div class="task-hint" id="taskHint">Нажми на биты 1-8</div>
+        <div class="task">
+            <div class="task-text" id="task">Переведи число в двоичную систему</div>
+            <div class="task-text" style="font-size: 4rem;" id="target">156</div>
         </div>
         
         <!-- Биты -->
-        <div class="bits-container" id="bitsContainer"></div>
+        <div class="bits" id="bits"></div>
         
         <!-- Кнопки -->
-        <div class="control-panel">
+        <div class="buttons">
             <button class="btn btn-check" id="checkBtn">ПРОВЕРИТЬ</button>
-            <button class="btn btn-hint" id="hintBtn">ПОДСКАЗКА</button>
-            <button class="btn btn-hint" id="newTaskBtn">НОВОЕ</button>
+            <button class="btn" id="newBtn">НОВОЕ</button>
         </div>
         
         <!-- Статус -->
-        <div class="status" id="statusMessage">Нажимай биты 1-8</div>
+        <div class="status" id="status">Сумма: 0</div>
         
-        <!-- Подсказка по клавиатуре -->
-        <div class="keyboard-hint">
-            <span><span class="key">1-8</span> биты</span>
-            <span><span class="key">Пробел</span> проверить</span>
-            <span><span class="key">Enter</span> новое</span>
-            <span><span class="key">H</span> подсказка</span>
-        </div>
+        <!-- Подсказка (без ответа) -->
+        <div class="hint" id="hint">Нажми на биты 1-8</div>
     </div>
 
     <script>
         // =============== НАСТРОЙКИ ===============
         const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
         let activeBits = [false, false, false, false, false, false, false, false];
-        let currentMode = 'binary7';
         let score = 0;
         let level = 1;
         let solved = 0;
         let currentAnswer = 156;
         
-        // =============== ЗВУК (ПРОСТАЯ И НАДЁЖНАЯ ВЕРСИЯ) ===============
+        // =============== ЗВУК - САМАЯ ПРОСТАЯ ВЕРСИЯ ===============
         let soundEnabled = false;
         
-        function playSound(type) {
+        // Функция звука
+        function playBeep(type) {
             if (!soundEnabled) return;
             
             try {
+                // Создаём новый контекст для каждого звука (так надёжнее)
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
                 
-                // Пробуждаем контекст (важно для Chrome)
+                // Пробуждаем
                 if (ctx.state === 'suspended') {
                     ctx.resume();
                 }
@@ -323,62 +246,74 @@
                 osc.connect(gain);
                 gain.connect(ctx.destination);
                 
-                // Разные звуки
+                // Настройки звука
                 if (type === 'click') {
                     osc.frequency.value = 400;
                     gain.gain.value = 0.1;
-                    osc.start();
-                    osc.stop(0.1);
                 } else if (type === 'success') {
                     osc.frequency.value = 600;
                     gain.gain.value = 0.1;
-                    osc.start();
-                    osc.stop(0.2);
                 } else if (type === 'error') {
                     osc.frequency.value = 200;
                     gain.gain.value = 0.1;
-                    osc.start();
-                    osc.stop(0.3);
+                }
+                
+                osc.start();
+                osc.stop(0.1);
+                
+                // Для успеха - добавим второй звук
+                if (type === 'success') {
+                    setTimeout(() => {
+                        if (!soundEnabled) return;
+                        const ctx2 = new AudioContext();
+                        const osc2 = ctx2.createOscillator();
+                        const gain2 = ctx2.createGain();
+                        osc2.connect(gain2);
+                        gain2.connect(ctx2.destination);
+                        osc2.frequency.value = 800;
+                        gain2.gain.value = 0.1;
+                        osc2.start();
+                        osc2.stop(0.1);
+                    }, 150);
                 }
             } catch(e) {
-                console.log('Ошибка звука:', e);
+                console.log('Звук не поддерживается');
             }
         }
         
         // КНОПКА ВКЛЮЧЕНИЯ ЗВУКА
-        document.getElementById('soundButton').onclick = function() {
+        document.getElementById('soundBtn').onclick = function() {
             soundEnabled = true;
             this.classList.add('active');
             this.innerHTML = '🔊 ЗВУК ВКЛЮЧЁН';
             
-            // Тестовый звук
-            setTimeout(() => {
-                playSound('success');
-            }, 100);
+            // Три тестовых звука
+            playBeep('click');
+            setTimeout(() => playBeep('success'), 200);
+            setTimeout(() => playBeep('error'), 500);
         };
         
         // =============== БИТЫ ===============
         function createBits() {
-            const container = document.getElementById('bitsContainer');
+            const bitsDiv = document.getElementById('bits');
             for (let i = 0; i < 8; i++) {
                 const bit = document.createElement('div');
                 bit.className = 'bit';
                 bit.dataset.index = i;
-                bit.innerHTML = bitValues[i];
+                bit.innerHTML = `${bitValues[i]}<br><small>${i+1}</small>`;
                 
                 bit.onclick = function() {
                     const idx = parseInt(this.dataset.index);
                     activeBits[idx] = !activeBits[idx];
                     this.classList.toggle('active');
                     
-                    // Звук при клике
-                    playSound('click');
+                    playBeep('click'); // Звук при клике
                     
-                    // Показываем сумму
-                    updateSum();
+                    const sum = getSum();
+                    document.getElementById('status').innerHTML = `Сумма: ${sum}`;
                 };
                 
-                container.appendChild(bit);
+                bitsDiv.appendChild(bit);
             }
         }
         
@@ -390,54 +325,34 @@
             return sum;
         }
         
-        function updateSum() {
-            document.getElementById('statusMessage').innerHTML = `Текущая сумма: ${getSum()}`;
-        }
-        
         function resetBits() {
             activeBits.fill(false);
             document.querySelectorAll('.bit').forEach(b => b.classList.remove('active'));
+            document.getElementById('status').innerHTML = 'Сумма: 0';
         }
         
         // =============== ЗАДАНИЯ ===============
-        const tasks = {
-            binary7: [
-                {q: "Переведи 156 в двоичную систему", a: 156, hint: "128 + 16 + 8 + 4"},
-                {q: "Переведи 199 в двоичную систему", a: 199, hint: "128 + 64 + 4 + 2 + 1"},
-                {q: "Переведи 211 в двоичную систему", a: 211, hint: "128 + 64 + 16 + 2 + 1"},
-                {q: "Переведи 255 в двоичную систему", a: 255, hint: "все биты включены"}
-            ],
-            logic8: [
-                {q: "A=1, B=0, найти A∧B (И)", a: 0, hint: "1 И 0 = 0"},
-                {q: "A=1, B=0, найти A∨B (ИЛИ)", a: 1, hint: "1 ИЛИ 0 = 1"},
-                {q: "A=1, найти ¬A (НЕ)", a: 0, hint: "НЕ 1 = 0"}
-            ],
-            oge9: [
-                {q: "Сколько бит в слове 'ИНФОРМАТИКА'?", a: 88, hint: "11 букв × 8 = 88"},
-                {q: "Сколько байт в слове 'КОМПЬЮТЕР'?", a: 9, hint: "9 букв = 9 байт"},
-                {q: "Сколько бит в 2 Кбайтах?", a: 16384, hint: "2×1024×8 = 16384"}
-            ]
-        };
+        const tasks = [
+            {q: "156", a: 156, hint: "128 + 16 + 8 + 4"},
+            {q: "199", a: 199, hint: "128 + 64 + 4 + 2 + 1"},
+            {q: "211", a: 211, hint: "128 + 64 + 16 + 2 + 1"},
+            {q: "255", a: 255, hint: "все биты включены"},
+            {q: "101101₂", a: 45, hint: "32 + 8 + 4 + 1"},
+            {q: "110011₂", a: 51, hint: "32 + 16 + 2 + 1"},
+            {q: "111111₂", a: 63, hint: "32 + 16 + 8 + 4 + 2 + 1"},
+            {q: "101010₂", a: 42, hint: "32 + 8 + 2"}
+        ];
         
         function newTask() {
-            const modeTasks = tasks[currentMode];
-            const task = modeTasks[Math.floor(Math.random() * modeTasks.length)];
-            
-            document.getElementById('taskMain').innerHTML = task.q;
+            const task = tasks[Math.floor(Math.random() * tasks.length)];
+            document.getElementById('target').innerHTML = task.q;
             currentAnswer = task.a;
-            
-            if (task.hint) {
-                document.getElementById('taskHint').innerHTML = task.hint;
-            } else {
-                document.getElementById('taskHint').innerHTML = 'Нажми на биты 1-8';
-            }
-            
+            document.getElementById('hint').innerHTML = task.hint;
             resetBits();
-            updateSum();
         }
         
         // =============== ПРОВЕРКА ===============
-        function checkTask() {
+        function check() {
             const sum = getSum();
             
             if (sum === currentAnswer) {
@@ -448,34 +363,15 @@
                 document.getElementById('score').innerHTML = score;
                 document.getElementById('level').innerHTML = level;
                 document.getElementById('solved').innerHTML = solved;
-                document.getElementById('statusMessage').innerHTML = '✅ ПРАВИЛЬНО!';
-                document.getElementById('statusMessage').className = 'status success';
+                document.getElementById('status').innerHTML = '✅ ПРАВИЛЬНО! +10 очков';
                 
-                playSound('success');
+                playBeep('success'); // Звук успеха
+                
                 setTimeout(newTask, 1500);
             } else {
-                document.getElementById('statusMessage').innerHTML = `❌ ОШИБКА! Правильный ответ: ${currentAnswer}`;
-                document.getElementById('statusMessage').className = 'status error';
-                playSound('error');
+                document.getElementById('status').innerHTML = `❌ ОШИБКА! Правильный ответ: ${currentAnswer}`;
+                playBeep('error'); // Звук ошибки
             }
-        }
-        
-        // =============== ПОДСКАЗКА ===============
-        function showHint() {
-            const task = tasks[currentMode].find(t => t.a === currentAnswer);
-            if (task && task.hint) {
-                document.getElementById('taskHint').innerHTML = task.hint;
-            }
-        }
-        
-        // =============== СМЕНА РЕЖИМА ===============
-        function setMode(mode, element) {
-            currentMode = mode;
-            
-            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
-            element.classList.add('active');
-            
-            newTask();
         }
         
         // =============== КЛАВИАТУРА ===============
@@ -484,23 +380,17 @@
             
             if (key >= '1' && key <= '8') {
                 const idx = parseInt(key) - 1;
-                const bit = document.querySelectorAll('.bit')[idx];
-                bit.click();
+                document.querySelectorAll('.bit')[idx].click();
                 e.preventDefault();
             }
             
             if (key === ' ') {
-                document.getElementById('checkBtn').click();
+                check();
                 e.preventDefault();
             }
             
             if (key === 'Enter') {
-                document.getElementById('newTaskBtn').click();
-                e.preventDefault();
-            }
-            
-            if (key === 'h' || key === 'H') {
-                document.getElementById('hintBtn').click();
+                newTask();
                 e.preventDefault();
             }
         };
@@ -509,9 +399,8 @@
         createBits();
         newTask();
         
-        document.getElementById('checkBtn').onclick = checkTask;
-        document.getElementById('hintBtn').onclick = showHint;
-        document.getElementById('newTaskBtn').onclick = newTask;
+        document.getElementById('checkBtn').onclick = check;
+        document.getElementById('newBtn').onclick = newTask;
     </script>
 </body>
 </html>
