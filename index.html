@@ -178,6 +178,7 @@
             padding: 10px 25px;
             border-radius: 40px;
             display: inline-block;
+            min-height: 60px;
         }
         
         /* Биты */
@@ -363,7 +364,7 @@
         <div class="task-panel">
             <div class="task-label" id="taskLabel">Задание:</div>
             <div class="task-main" id="taskMain">Переведи 156 в двоичную систему</div>
-            <div class="task-hint" id="taskHint">Нажми на биты 1-8</div>
+            <div class="task-hint" id="taskHint">Нажми 💡 для подсказки</div>
         </div>
         
         <!-- Биты -->
@@ -489,7 +490,7 @@
             updateSum();
         }
         
-        // =============== ЗАДАНИЯ (ТОЛЬКО ВОПРОСЫ, БЕЗ ОТВЕТОВ ВНИЗУ) ===============
+        // =============== ЗАДАНИЯ ===============
         const tasks = {
             // 7 КЛАСС
             binary7: [
@@ -576,6 +577,22 @@
             ]
         };
         
+        // =============== ПОДСКАЗКИ (ТОЛЬКО ДЛЯ КНОПКИ) ===============
+        const hints = {
+            binary7: "Разложи число на 128, 64, 32, 16, 8, 4, 2, 1",
+            binary2: "Умножь каждую цифру на степень двойки и сложи",
+            bytes: "1 байт = 8 бит, 1 Кбайт = 1024 байта",
+            power: "Вспомни степени двойки",
+            logic8: "И = 1 когда оба 1, ИЛИ = 1 когда хоть один 1, НЕ меняет на противоположный",
+            truthTable: "Количество строк = 2ⁿ, где n - число переменных",
+            addition8: "Сначала переведи в десятичную, потом сложи",
+            oge10: "Количество букв умножь на 8",
+            oge11: "Скорость = объём / время, не забудь про перевод единиц",
+            oge13: "Количество цветов = 2ⁿ, где n - глубина цвета",
+            octal: "Каждая цифра умножается на 8 в степени",
+            hex: "A=10, B=11, C=12, D=13, E=14, F=15"
+        };
+        
         // =============== ЗАДАНИЯ ===============
         function newTask() {
             const modeTasks = tasks[currentMode];
@@ -586,7 +603,7 @@
             currentTask = task.a;
             
             document.getElementById('taskMain').innerHTML = currentQuestion;
-            document.getElementById('taskHint').innerHTML = 'Набери ответ битами';
+            document.getElementById('taskHint').innerHTML = 'Нажми 💡 для подсказки';
             
             resetBits();
         }
@@ -615,19 +632,11 @@
             }
         }
         
-        // =============== ПОДСКАЗКА ===============
+        // =============== ПОДСКАЗКА ПО КНОПКЕ ===============
         function showHint() {
-            if (currentMode === 'binary7') {
-                document.getElementById('taskHint').innerHTML = 'Разложи число на 128, 64, 32, 16, 8, 4, 2, 1';
-            } else if (currentMode === 'binary2') {
-                document.getElementById('taskHint').innerHTML = 'Умножь каждую цифру на степень двойки и сложи';
-            } else if (currentMode === 'bytes') {
-                document.getElementById('taskHint').innerHTML = '1 байт = 8 бит, 1 Кбайт = 1024 байта';
-            } else if (currentMode === 'power') {
-                document.getElementById('taskHint').innerHTML = 'Вспомни степени двойки';
-            } else {
-                document.getElementById('taskHint').innerHTML = 'Набери ответ битами';
-            }
+            const hint = hints[currentMode] || 'Попробуй включить нужные биты';
+            document.getElementById('taskHint').innerHTML = hint;
+            playSound('click');
         }
         
         // =============== СМЕНА РЕЖИМА ===============
