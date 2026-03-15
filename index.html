@@ -26,12 +26,11 @@
         .container {
             max-width: 1200px;
             width: 100%;
-            background: rgba(15, 26, 47, 0.9);
-            border: 2px solid #00ffaa;
+            background: rgba(15, 26, 47, 0.95);
+            border: 3px solid #00ffaa;
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 0 50px rgba(0, 255, 170, 0.3);
-            backdrop-filter: blur(5px);
+            box-shadow: 0 0 50px rgba(0, 255, 170, 0.4);
         }
         
         h1 {
@@ -40,7 +39,7 @@
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 5px;
-            text-shadow: 0 0 20px #00ffaa;
+            text-shadow: 0 0 20px #00ffaa, 0 0 40px #00ffaa;
             color: #fff;
         }
         
@@ -49,21 +48,50 @@
             color: #aaddcc;
             margin-bottom: 30px;
             font-size: 1.2rem;
-            border-bottom: 1px dashed #00ffaa;
+            border-bottom: 2px dashed #00ffaa;
             padding-bottom: 15px;
+        }
+        
+        .sound-warning {
+            background: #332200;
+            border: 2px solid #ffaa00;
+            border-radius: 50px;
+            padding: 15px 25px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #ffaa00;
+            font-weight: bold;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
+        }
+        
+        .sound-warning:hover {
+            background: #443300;
+            transform: scale(1.02);
+            box-shadow: 0 0 30px #ffaa00;
+        }
+        
+        .sound-enabled {
+            background: #004422;
+            border-color: #00ffaa;
+            color: #00ffaa;
+            box-shadow: 0 0 20px #00ffaa;
         }
         
         .keyboard-hint {
             background: #1a2a3f;
-            border: 1px solid #00ffaa;
+            border: 2px solid #00ffaa;
             border-radius: 40px;
-            padding: 10px 20px;
+            padding: 15px 25px;
             margin-bottom: 25px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 25px;
             color: #aaddcc;
+            font-size: 1.1rem;
         }
         
         .key {
@@ -71,11 +99,12 @@
             background: #0a1a2a;
             border: 2px solid #00ffaa;
             border-radius: 10px;
-            padding: 5px 12px;
+            padding: 5px 15px;
             color: #00ffaa;
             font-weight: bold;
             margin: 0 5px;
             box-shadow: 0 3px 0 #0a4a3a;
+            font-size: 1.1rem;
         }
         
         .stats-panel {
@@ -385,28 +414,33 @@
         }
         
         .sound-status {
-            margin-top: 15px;
-            font-size: 1rem;
-            color: #88ccbb;
-            text-align: center;
+            margin-top: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
         
         .sound-toggle {
-            background: none;
+            background: #1a2a3f;
             border: 2px solid #00ffaa;
             color: #00ffaa;
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 12px 30px;
+            border-radius: 40px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 1rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: all 0.2s;
         }
         
         .sound-toggle:hover {
+            background: #00ffaa;
+            color: #0a1a2a;
+            transform: scale(1.05);
+        }
+        
+        .sound-toggle.active {
             background: #00ffaa;
             color: #0a1a2a;
         }
@@ -472,12 +506,32 @@
             transition: width 0.3s;
             box-shadow: 0 0 15px #00ffaa;
         }
+        
+        .test-sound-btn {
+            background: #2a4a5a;
+            color: white;
+            border: none;
+            border-radius: 30px;
+            padding: 10px 20px;
+            margin-left: 15px;
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        
+        .test-sound-btn:hover {
+            background: #3a5a6a;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
         <div class="subtitle">компьютерная версия • тренажёр для юных хакеров</div>
+        
+        <!-- ВАЖНО: Кнопка активации звука -->
+        <div class="sound-warning" id="soundWarning">
+            🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК
+        </div>
         
         <!-- Подсказка по клавиатуре -->
         <div class="keyboard-hint">
@@ -573,8 +627,8 @@
         
         <!-- Звуковой статус -->
         <div class="sound-status">
-            <span>🔊 Звуковые подсказки</span>
-            <button class="sound-toggle" id="soundToggle">🔇 Выключить</button>
+            <button class="sound-toggle" id="soundToggle">🔊 Звук включен</button>
+            <button class="test-sound-btn" id="testSoundBtn">🔊 Тест звука</button>
         </div>
     </div>
 
@@ -592,10 +646,8 @@
         let streak = 0;
         let currentTask = {};
         let tasksCompleted = 0;
-        let soundEnabled = true;
-        
-        // Создаём аудио-контекст для звуков
-        let audioCtx = null;
+        let soundEnabled = false; // Изначально выключен
+        let audioContext = null;
         
         // База заданий
         const taskDatabase = {
@@ -668,62 +720,129 @@
         };
         
         // ===============================================
-        // ЗВУКОВЫЕ ФУНКЦИИ
+        // ФУНКЦИИ ДЛЯ ЗВУКА (УПРОЩЕННЫЕ И НАДЕЖНЫЕ)
         // ===============================================
-        function initAudio() {
-            if (!audioCtx) {
-                try {
-                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                } catch (e) {
-                    console.log('Web Audio API не поддерживается');
-                }
-            }
-        }
         
-        function playBeep(frequency, duration, type = 'sine') {
-            if (!soundEnabled || !audioCtx) return;
+        // Инициализация звука при первом взаимодействии
+        function initAudio() {
+            if (audioContext) return;
             
             try {
-                if (audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                
-                oscillator.type = type;
-                oscillator.frequency.value = frequency;
-                
-                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration/1000);
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                
-                oscillator.start();
-                oscillator.stop(audioCtx.currentTime + duration/1000);
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                console.log('Audio context created');
             } catch (e) {
-                console.log('Ошибка воспроизведения звука');
+                console.error('Web Audio API not supported', e);
             }
         }
         
-        function playBitSound(bitIndex) {
+        // Воспроизведение простого звука
+        function playSound(type) {
             if (!soundEnabled) return;
-            // Частота зависит от веса бита: 128 -> 200Hz, 1 -> 800Hz
-            const freq = 200 + (bitIndex * 80);
-            playBeep(freq, 150, 'sine');
+            if (!audioContext) {
+                initAudio();
+                if (!audioContext) return;
+            }
+            
+            try {
+                // Пробуждаем аудио контекст (важно!)
+                if (audioContext.state === 'suspended') {
+                    audioContext.resume();
+                }
+                
+                const now = audioContext.currentTime;
+                const osc = audioContext.createOscillator();
+                const gain = audioContext.createGain();
+                
+                osc.connect(gain);
+                gain.connect(audioContext.destination);
+                
+                // Настройки звука в зависимости от типа
+                switch(type) {
+                    case 'bit':
+                        osc.frequency.value = 400;
+                        gain.gain.setValueAtTime(0.1, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.start(now);
+                        osc.stop(now + 0.1);
+                        break;
+                    case 'success':
+                        // Первый звук
+                        osc.frequency.value = 600;
+                        gain.gain.setValueAtTime(0.1, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
+                        osc.start(now);
+                        
+                        // Второй звук
+                        setTimeout(() => {
+                            if (!soundEnabled) return;
+                            const osc2 = audioContext.createOscillator();
+                            const gain2 = audioContext.createGain();
+                            osc2.connect(gain2);
+                            gain2.connect(audioContext.destination);
+                            osc2.frequency.value = 800;
+                            gain2.gain.setValueAtTime(0.1, now + 0.15);
+                            gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
+                            osc2.start(now + 0.15);
+                            osc2.stop(now + 0.25);
+                        }, 100);
+                        
+                        osc.stop(now + 0.1);
+                        break;
+                    case 'error':
+                        osc.frequency.value = 200;
+                        gain.gain.setValueAtTime(0.15, now);
+                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                        osc.start(now);
+                        osc.stop(now + 0.3);
+                        break;
+                }
+            } catch (e) {
+                console.error('Error playing sound:', e);
+            }
         }
         
-        function playSuccessSound() {
-            if (!soundEnabled) return;
-            playBeep(600, 100);
-            setTimeout(() => playBeep(800, 150), 120);
-            setTimeout(() => playBeep(1000, 200), 250);
+        // Специальная функция для активации звука
+        function enableSound() {
+            initAudio();
+            soundEnabled = true;
+            
+            // Обновляем интерфейс
+            document.getElementById('soundWarning').style.display = 'none';
+            document.getElementById('soundToggle').innerHTML = '🔊 Звук включен';
+            document.getElementById('soundToggle').classList.add('active');
+            
+            // Воспроизводим тестовый звук
+            try {
+                if (audioContext && audioContext.state === 'suspended') {
+                    audioContext.resume().then(() => {
+                        playSound('success');
+                    });
+                } else {
+                    playSound('success');
+                }
+            } catch (e) {
+                console.log('Test sound error', e);
+            }
         }
         
-        function playErrorSound() {
-            if (!soundEnabled) return;
-            playBeep(300, 300, 'sawtooth');
+        // Переключение звука
+        function toggleSound() {
+            if (!soundEnabled) {
+                enableSound();
+            } else {
+                soundEnabled = false;
+                document.getElementById('soundToggle').innerHTML = '🔇 Звук выключен';
+                document.getElementById('soundToggle').classList.remove('active');
+            }
+        }
+        
+        // Тест звука
+        function testSound() {
+            if (!soundEnabled) {
+                enableSound();
+            } else {
+                playSound('success');
+            }
         }
         
         // ===============================================
@@ -763,7 +882,7 @@
             const bitElements = document.querySelectorAll('.bit');
             if (activeBits[index]) {
                 bitElements[index].classList.add('active');
-                playBitSound(index);
+                playSound('bit');
             } else {
                 bitElements[index].classList.remove('active');
             }
@@ -989,11 +1108,10 @@
                 document.getElementById('statusMessage').innerHTML = '✅ ВЕРНО! +10 очков';
                 document.getElementById('statusMessage').className = 'status success';
                 
-                playSuccessSound();
+                playSound('success');
                 
                 if (tasksCompleted % 5 === 0) {
                     level++;
-                    playBeep(800, 500);
                 }
                 
                 setTimeout(() => {
@@ -1005,7 +1123,7 @@
                 document.getElementById('statusMessage').innerHTML = '❌ НЕВЕРНО! Попробуй ещё';
                 document.getElementById('statusMessage').className = 'status error';
                 
-                playErrorSound();
+                playSound('error');
             }
             
             updateStats();
@@ -1017,7 +1135,6 @@
         function showHint() {
             if (currentTask.hint) {
                 document.getElementById('statusMessage').innerHTML = '💡 ' + currentTask.hint;
-                playBeep(400, 100);
             }
         }
         
@@ -1111,12 +1228,12 @@
         // ===============================================
         function selectGate(gate) {
             document.getElementById('statusMessage').innerHTML = `Выбран элемент ${gate}`;
-            playBeep(500, 100);
+            if (soundEnabled) playSound('bit');
         }
         
         function selectComparison(comp) {
             document.getElementById('statusMessage').innerHTML = `Выбран знак ${comp === 'greater' ? '>' : comp === 'less' ? '<' : '='}`;
-            playBeep(500, 100);
+            if (soundEnabled) playSound('bit');
         }
         
         // ===============================================
@@ -1152,41 +1269,27 @@
         }
         
         // ===============================================
-        // ПЕРЕКЛЮЧЕНИЕ ЗВУКА
-        // ===============================================
-        function toggleSound() {
-            soundEnabled = !soundEnabled;
-            const btn = document.getElementById('soundToggle');
-            btn.innerHTML = soundEnabled ? '🔇 Выключить' : '🔊 Включить';
-            
-            if (soundEnabled) {
-                playBeep(600, 100);
-            }
-        }
-        
-        // ===============================================
         // ИНИЦИАЛИЗАЦИЯ
         // ===============================================
         window.onload = function() {
-            initAudio();
             createBits();
             generateTask();
             
+            // Назначаем обработчики
             document.getElementById('checkBtn').addEventListener('click', checkTask);
             document.getElementById('hintBtn').addEventListener('click', showHint);
             document.getElementById('newTaskBtn').addEventListener('click', generateTask);
-            document.getElementById('soundToggle').addEventListener('click', toggleSound);
             
-            // Добавляем обработчик клавиатуры
+            // Звуковые кнопки
+            document.getElementById('soundWarning').addEventListener('click', enableSound);
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+            document.getElementById('testSoundBtn').addEventListener('click', testSound);
+            
+            // Клавиатура
             document.addEventListener('keydown', handleKeyDown);
             
-            // Активируем аудио контекст при первом взаимодействии
-            document.body.addEventListener('click', function initAudioOnFirstClick() {
-                if (audioCtx && audioCtx.state === 'suspended') {
-                    audioCtx.resume();
-                }
-                document.body.removeEventListener('click', initAudioOnFirstClick);
-            }, { once: true });
+            // Автоматически не включаем звук, ждем клика
+            console.log('Ready. Click the yellow button to enable sound.');
         };
     </script>
 </body>
