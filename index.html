@@ -3,17 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Двоичный дозор</title>
+    <title>Двоичный дозор - Информатика 7-9 класс</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
         
         body {
             font-family: 'Courier New', monospace;
-            background: #0a1a2a;
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a2a3f 100%);
             color: #00ffaa;
             min-height: 100vh;
             display: flex;
@@ -23,222 +23,397 @@
         }
         
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             width: 100%;
-            background: #0f1a2f;
+            background: rgba(15, 26, 47, 0.95);
             border: 3px solid #00ffaa;
             border-radius: 30px;
             padding: 30px;
-            box-shadow: 0 0 30px #00ffaa;
+            box-shadow: 0 0 50px rgba(0, 255, 170, 0.4);
         }
         
         h1 {
             text-align: center;
             font-size: 3rem;
-            margin-bottom: 30px;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px #00ffaa;
             color: #fff;
-            text-shadow: 0 0 15px #00ffaa;
         }
         
-        /* КНОПКА ЗВУКА - САМАЯ ГЛАВНАЯ */
-        .sound-section {
+        .subtitle {
             text-align: center;
-            margin-bottom: 30px;
+            color: #aaddcc;
+            margin-bottom: 20px;
+            font-size: 1.2rem;
+            border-bottom: 2px dashed #00ffaa;
+            padding-bottom: 10px;
         }
         
-        #soundBtn {
-            background: #ffaa00;
-            border: none;
+        /* ========== КНОПКА ЗВУКА ========== */
+        #soundButton {
+            background: #332200;
+            border: 3px solid #ffaa00;
             border-radius: 60px;
-            padding: 20px 40px;
-            font-size: 2rem;
+            padding: 20px 30px;
+            margin-bottom: 25px;
+            text-align: center;
+            color: #ffaa00;
             font-weight: bold;
-            color: #000;
+            font-size: 1.5rem;
             cursor: pointer;
-            box-shadow: 0 0 30px #ffaa00;
-            border: 3px solid white;
+            transition: all 0.3s;
             width: 100%;
-            max-width: 500px;
-            margin: 0 auto;
+            box-shadow: 0 0 30px rgba(255, 170, 0, 0.5);
         }
         
-        #soundBtn:hover {
-            background: #ffbb22;
+        #soundButton:hover {
+            background: #443300;
             transform: scale(1.02);
         }
         
-        #soundBtn.active {
-            background: #00ffaa;
+        #soundButton.active {
+            background: #00aa44;
+            border-color: #00ffaa;
+            color: white;
             box-shadow: 0 0 30px #00ffaa;
         }
         
-        .stats {
+        /* Статистика */
+        .stats-panel {
             display: flex;
             justify-content: space-around;
-            background: #1a2a3f;
-            border-radius: 30px;
-            padding: 20px;
-            margin-bottom: 30px;
-            font-size: 1.5rem;
+            background: #0f1a2f;
+            border: 2px solid #00ffaa;
+            border-radius: 50px;
+            padding: 15px;
+            margin-bottom: 25px;
+            font-size: 1.3rem;
         }
         
-        .task {
-            background: #1a2a3f;
-            border: 3px solid #00ffaa;
-            border-radius: 30px;
-            padding: 30px;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-        
-        .task-text {
-            font-size: 2.5rem;
+        .stat-value {
+            font-size: 2rem;
             color: #fff;
+            font-weight: bold;
+        }
+        
+        /* Классы */
+        .class-section {
+            margin-bottom: 25px;
+        }
+        
+        .class-title {
+            font-size: 1.8rem;
+            color: #fff;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 5px solid;
+        }
+        
+        .class-7-title { border-color: #4CAF50; }
+        .class-8-title { border-color: #FF9800; }
+        .class-9-title { border-color: #f44336; }
+        
+        .mode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
             margin-bottom: 20px;
         }
         
-        .bits {
+        .mode-card {
+            background: #0f1a2f;
+            border: 2px solid #2a4a5a;
+            border-radius: 15px;
+            padding: 18px 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-weight: bold;
+            color: #aaddcc;
+            font-size: 1.1rem;
+        }
+        
+        .mode-card:hover {
+            border-color: #00ffaa;
+            transform: translateY(-2px);
+        }
+        
+        .mode-card.active {
+            border-color: #00ffaa;
+            background: #1a3a4a;
+            color: #fff;
+            box-shadow: 0 0 20px #00ffaa;
+        }
+        
+        /* Задание */
+        .task-panel {
+            background: #0f1a2f;
+            border: 3px solid #00ffaa;
+            border-radius: 30px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: center;
+        }
+        
+        .task-label {
+            font-size: 1.3rem;
+            color: #88ccbb;
+        }
+        
+        .task-main {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 0 20px #00ffaa;
+            margin: 15px 0;
+            line-height: 1.4;
+        }
+        
+        .task-hint {
+            color: #aaddcc;
+            font-size: 1.2rem;
+            background: #1a2a3f;
+            padding: 10px 25px;
+            border-radius: 40px;
+            display: inline-block;
+        }
+        
+        /* Биты */
+        .bits-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
+            gap: 12px;
+            margin-bottom: 25px;
         }
         
         .bit {
-            width: 100px;
-            height: 120px;
-            background: #1a2a3f;
-            border: 3px solid #2a4a5a;
-            border-radius: 20px;
+            flex: 1 1 80px;
+            min-width: 80px;
+            height: 110px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            background: #0f1a2f;
+            border: 3px solid #2a4a5a;
+            border-radius: 15px;
             font-size: 2rem;
             font-weight: bold;
+            color: #aaddcc;
             cursor: pointer;
+            transition: all 0.2s;
             box-shadow: 0 5px 0 #0a1a2a;
+            position: relative;
+        }
+        
+        .bit:hover {
+            transform: translateY(-3px);
+            border-color: #00ffaa;
         }
         
         .bit.active {
             background: #00ffaa;
             border-color: #fff;
-            color: #000;
-            box-shadow: 0 0 30px #00ffaa;
+            color: #0a1a2a;
+            box-shadow: 0 0 30px #00ffaa, 0 5px 0 #0a6a4a;
         }
         
-        .bit small {
+        .bit-number {
+            position: absolute;
+            top: 5px;
+            left: 8px;
             font-size: 0.9rem;
-            opacity: 0.7;
+            color: #88ccbb;
         }
         
-        .buttons {
+        /* Кнопки */
+        .control-panel {
             display: flex;
+            flex-wrap: wrap;
             gap: 15px;
             justify-content: center;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         .btn {
-            padding: 20px 40px;
-            font-size: 1.5rem;
+            min-width: 180px;
+            padding: 18px 25px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
             border-radius: 50px;
             cursor: pointer;
+            transition: all 0.2s;
+            text-transform: uppercase;
+            box-shadow: 0 5px 0 #0a1a2a;
+        }
+        
+        .btn-check {
+            background: #00ffaa;
+            color: #0a1a2a;
+        }
+        
+        .btn-hint {
             background: #1a2a3f;
             color: #00ffaa;
             border: 2px solid #00ffaa;
         }
         
-        .btn-check {
-            background: #00ffaa;
-            color: #000;
+        .btn:active {
+            transform: translateY(5px);
+            box-shadow: none;
         }
         
         .status {
-            background: #1a2a3f;
-            border-radius: 30px;
-            padding: 20px;
+            padding: 18px;
             text-align: center;
             font-size: 1.5rem;
-            margin-bottom: 20px;
+            border-radius: 50px;
+            background: #0f1a2f;
+            border: 2px solid #2a4a5a;
+            margin-bottom: 15px;
+            color: #aaddcc;
         }
         
-        .hint {
-            background: #332200;
-            color: #ffaa00;
+        .status.success {
+            background: #4CAF50;
+            color: white;
+        }
+        
+        .status.error {
+            background: #f44336;
+            color: white;
+        }
+        
+        .keyboard-hint {
+            background: #1a2a3f;
+            border: 2px solid #00ffaa;
+            border-radius: 40px;
             padding: 15px;
-            border-radius: 30px;
-            text-align: center;
-            font-size: 1.3rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            color: #aaddcc;
+            font-size: 1.1rem;
+        }
+        
+        .key {
+            background: #0a1a2a;
+            border: 2px solid #00ffaa;
+            border-radius: 10px;
+            padding: 5px 15px;
+            color: #00ffaa;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
+        <div class="subtitle">информатика 7-9 классы • подготовка к ОГЭ</div>
         
-        <!-- КНОПКА ЗВУКА - ОГРОМНАЯ, ПЕРВАЯ, ВИДНАЯ -->
-        <div class="sound-section">
-            <button id="soundBtn">🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК</button>
-        </div>
+        <!-- КНОПКА ЗВУКА -->
+        <div id="soundButton">🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК</div>
         
         <!-- Статистика -->
-        <div class="stats">
-            <div>ОЧКИ: <span id="score">0</span></div>
-            <div>УРОВЕНЬ: <span id="level">1</span></div>
-            <div>РЕШЕНО: <span id="solved">0</span></div>
+        <div class="stats-panel">
+            <div><span class="stat-label">ОЧКИ</span> <span class="stat-value" id="score">0</span></div>
+            <div><span class="stat-label">УРОВЕНЬ</span> <span class="stat-value" id="level">1</span></div>
+            <div><span class="stat-label">РЕШЕНО</span> <span class="stat-value" id="solved">0</span></div>
+        </div>
+        
+        <!-- 7 КЛАСС -->
+        <div class="class-section">
+            <div class="class-title class-7-title">📘 7 КЛАСС</div>
+            <div class="mode-grid">
+                <div class="mode-card active" onclick="setMode('binary7', this)">🔢 Двоичная система</div>
+                <div class="mode-card" onclick="setMode('binary2', this)">🔄 10→2 система</div>
+                <div class="mode-card" onclick="setMode('binaryArith', this)">📊 Арифметика двоичных</div>
+                <div class="mode-card" onclick="setMode('bytes', this)">💾 Байты и биты</div>
+                <div class="mode-card" onclick="setMode('power', this)">📈 Степени двойки</div>
+            </div>
+        </div>
+        
+        <!-- 8 КЛАСС -->
+        <div class="class-section">
+            <div class="class-title class-8-title">📗 8 КЛАСС</div>
+            <div class="mode-grid">
+                <div class="mode-card" onclick="setMode('logic8', this)">🧠 Логические выражения</div>
+                <div class="mode-card" onclick="setMode('truthTable', this)">📋 Таблицы истинности</div>
+                <div class="mode-card" onclick="setMode('logicEq', this)">⚖️ Логические уравнения</div>
+                <div class="mode-card" onclick="setMode('addition8', this)">➕ Сложение двоичных</div>
+            </div>
+        </div>
+        
+        <!-- 9 КЛАСС (ОГЭ) -->
+        <div class="class-section">
+            <div class="class-title class-9-title">📙 9 КЛАСС • ПОДГОТОВКА К ОГЭ</div>
+            <div class="mode-grid">
+                <div class="mode-card" onclick="setMode('oge10', this)">📝 ОГЭ №10 (кодирование)</div>
+                <div class="mode-card" onclick="setMode('oge11', this)">📊 ОГЭ №11 (скорость)</div>
+                <div class="mode-card" onclick="setMode('oge13', this)">💾 ОГЭ №13 (объем памяти)</div>
+                <div class="mode-card" onclick="setMode('ogeHard', this)">🎯 ОГЭ сложные задания</div>
+                <div class="mode-card" onclick="setMode('octal', this)">🔢 8-ная система</div>
+                <div class="mode-card" onclick="setMode('hex', this)">🔢 16-ная система</div>
+            </div>
         </div>
         
         <!-- Задание -->
-        <div class="task">
-            <div class="task-text" id="task">Переведи число в двоичную систему</div>
-            <div class="task-text" style="font-size: 4rem;" id="target">156</div>
+        <div class="task-panel">
+            <div class="task-label" id="taskLabel">Задание:</div>
+            <div class="task-main" id="taskMain">Переведи 156 в двоичную систему</div>
+            <div class="task-hint" id="taskHint">Нажми на биты 1-8</div>
         </div>
         
         <!-- Биты -->
-        <div class="bits" id="bits"></div>
+        <div class="bits-container" id="bitsContainer"></div>
         
         <!-- Кнопки -->
-        <div class="buttons">
-            <button class="btn btn-check" id="checkBtn">ПРОВЕРИТЬ</button>
-            <button class="btn" id="newBtn">НОВОЕ</button>
+        <div class="control-panel">
+            <button class="btn btn-check" id="checkBtn">🔓 ПРОВЕРИТЬ</button>
+            <button class="btn btn-hint" id="hintBtn">💡 ПОДСКАЗКА</button>
+            <button class="btn btn-hint" id="newTaskBtn">🔄 НОВОЕ ЗАДАНИЕ</button>
         </div>
         
         <!-- Статус -->
-        <div class="status" id="status">Сумма: 0</div>
+        <div class="status" id="statusMessage">Сумма: 0</div>
         
-        <!-- Подсказка (без ответа) -->
-        <div class="hint" id="hint">Нажми на биты 1-8</div>
+        <!-- Подсказка по клавиатуре -->
+        <div class="keyboard-hint">
+            <span><span class="key">1-8</span> - биты</span>
+            <span><span class="key">Пробел</span> - проверить</span>
+            <span><span class="key">Enter</span> - новое</span>
+            <span><span class="key">H</span> - подсказка</span>
+        </div>
     </div>
 
     <script>
         // =============== НАСТРОЙКИ ===============
         const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
-        let activeBits = [false, false, false, false, false, false, false, false];
+        let activeBits = new Array(8).fill(false);
+        let currentMode = 'binary7';
         let score = 0;
         let level = 1;
         let solved = 0;
-        let currentAnswer = 156;
+        let currentTask = 0;
+        let currentQuestion = "";
+        let currentHint = "";
         
-        // =============== ЗВУК - САМАЯ ПРОСТАЯ ВЕРСИЯ ===============
+        // =============== ЗВУК ===============
         let soundEnabled = false;
         
-        // Функция звука
-        function playBeep(type) {
+        function playSound(type) {
             if (!soundEnabled) return;
             
             try {
-                // Создаём новый контекст для каждого звука (так надёжнее)
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 const ctx = new AudioContext();
                 
-                // Пробуждаем
-                if (ctx.state === 'suspended') {
-                    ctx.resume();
-                }
+                if (ctx.state === 'suspended') ctx.resume();
                 
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
@@ -246,23 +421,17 @@
                 osc.connect(gain);
                 gain.connect(ctx.destination);
                 
-                // Настройки звука
                 if (type === 'click') {
                     osc.frequency.value = 400;
                     gain.gain.value = 0.1;
+                    osc.start();
+                    osc.stop(0.1);
                 } else if (type === 'success') {
                     osc.frequency.value = 600;
                     gain.gain.value = 0.1;
-                } else if (type === 'error') {
-                    osc.frequency.value = 200;
-                    gain.gain.value = 0.1;
-                }
-                
-                osc.start();
-                osc.stop(0.1);
-                
-                // Для успеха - добавим второй звук
-                if (type === 'success') {
+                    osc.start();
+                    osc.stop(0.2);
+                    
                     setTimeout(() => {
                         if (!soundEnabled) return;
                         const ctx2 = new AudioContext();
@@ -275,45 +444,44 @@
                         osc2.start();
                         osc2.stop(0.1);
                     }, 150);
+                } else if (type === 'error') {
+                    osc.frequency.value = 200;
+                    gain.gain.value = 0.15;
+                    osc.start();
+                    osc.stop(0.3);
                 }
             } catch(e) {
-                console.log('Звук не поддерживается');
+                console.log('Sound error:', e);
             }
         }
         
-        // КНОПКА ВКЛЮЧЕНИЯ ЗВУКА
-        document.getElementById('soundBtn').onclick = function() {
+        // КНОПКА ЗВУКА
+        document.getElementById('soundButton').onclick = function() {
             soundEnabled = true;
             this.classList.add('active');
             this.innerHTML = '🔊 ЗВУК ВКЛЮЧЁН';
-            
-            // Три тестовых звука
-            playBeep('click');
-            setTimeout(() => playBeep('success'), 200);
-            setTimeout(() => playBeep('error'), 500);
+            playSound('success');
         };
         
         // =============== БИТЫ ===============
         function createBits() {
-            const bitsDiv = document.getElementById('bits');
+            const container = document.getElementById('bitsContainer');
             for (let i = 0; i < 8; i++) {
                 const bit = document.createElement('div');
                 bit.className = 'bit';
                 bit.dataset.index = i;
-                bit.innerHTML = `${bitValues[i]}<br><small>${i+1}</small>`;
-                
+                bit.innerHTML = `
+                    <div class="bit-number">${i+1}</div>
+                    <div>${bitValues[i]}</div>
+                `;
                 bit.onclick = function() {
                     const idx = parseInt(this.dataset.index);
                     activeBits[idx] = !activeBits[idx];
                     this.classList.toggle('active');
-                    
-                    playBeep('click'); // Звук при клике
-                    
-                    const sum = getSum();
-                    document.getElementById('status').innerHTML = `Сумма: ${sum}`;
+                    playSound('click');
+                    updateSum();
                 };
-                
-                bitsDiv.appendChild(bit);
+                container.appendChild(bit);
             }
         }
         
@@ -325,37 +493,149 @@
             return sum;
         }
         
+        function updateSum() {
+            document.getElementById('statusMessage').innerHTML = `Сумма: ${getSum()}`;
+        }
+        
         function resetBits() {
             activeBits.fill(false);
             document.querySelectorAll('.bit').forEach(b => b.classList.remove('active'));
-            document.getElementById('status').innerHTML = 'Сумма: 0';
         }
         
-        // =============== ЗАДАНИЯ ===============
-        const tasks = [
-            {q: "156", a: 156, hint: "128 + 16 + 8 + 4"},
-            {q: "199", a: 199, hint: "128 + 64 + 4 + 2 + 1"},
-            {q: "211", a: 211, hint: "128 + 64 + 16 + 2 + 1"},
-            {q: "255", a: 255, hint: "все биты включены"},
-            {q: "101101₂", a: 45, hint: "32 + 8 + 4 + 1"},
-            {q: "110011₂", a: 51, hint: "32 + 16 + 2 + 1"},
-            {q: "111111₂", a: 63, hint: "32 + 16 + 8 + 4 + 2 + 1"},
-            {q: "101010₂", a: 42, hint: "32 + 8 + 2"}
-        ];
+        // =============== ВСЕ ЗАДАНИЯ ===============
+        const tasks = {
+            // 7 КЛАСС
+            binary7: [
+                {q: "Переведи 156 в двоичную систему", a: 156, hint: "128 + 16 + 8 + 4"},
+                {q: "Переведи 199 в двоичную систему", a: 199, hint: "128 + 64 + 4 + 2 + 1"},
+                {q: "Переведи 211 в двоичную систему", a: 211, hint: "128 + 64 + 16 + 2 + 1"},
+                {q: "Переведи 255 в двоичную систему", a: 255, hint: "все биты включены"}
+            ],
+            binary2: [
+                {q: "101101₂ = ? (в десятичную)", a: 45, hint: "32 + 8 + 4 + 1 = 45"},
+                {q: "110011₂ = ? (в десятичную)", a: 51, hint: "32 + 16 + 2 + 1 = 51"},
+                {q: "111111₂ = ? (в десятичную)", a: 63, hint: "32 + 16 + 8 + 4 + 2 + 1 = 63"},
+                {q: "101010₂ = ? (в десятичную)", a: 42, hint: "32 + 8 + 2 = 42"},
+                {q: "1001₂ = ? (в десятичную)", a: 9, hint: "8 + 1 = 9"},
+                {q: "1100₂ = ? (в десятичную)", a: 12, hint: "8 + 4 = 12"}
+            ],
+            binaryArith: [
+                {q: "101₂ + 11₂ = ? (в десятичной)", a: 8, hint: "5 + 3 = 8"},
+                {q: "110₂ + 101₂ = ? (в десятичной)", a: 11, hint: "6 + 5 = 11"},
+                {q: "111₂ × 10₂ = ? (в десятичной)", a: 14, hint: "7 × 2 = 14"},
+                {q: "1000₂ - 11₂ = ? (в десятичной)", a: 5, hint: "8 - 3 = 5"},
+                {q: "101₂ × 11₂ = ? (в десятичной)", a: 15, hint: "5 × 3 = 15"}
+            ],
+            bytes: [
+                {q: "2 байта = ? бит", a: 16, hint: "2 × 8 = 16"},
+                {q: "4 байта = ? бит", a: 32, hint: "4 × 8 = 32"},
+                {q: "1 Кбайт = ? байт", a: 1024, hint: "1 Кбайт = 1024 байта"},
+                {q: "2 Кбайт = ? бит", a: 16384, hint: "2 × 1024 × 8 = 16384"},
+                {q: "512 бит = ? байт", a: 64, hint: "512 ÷ 8 = 64"},
+                {q: "1 Мбайт = ? Кбайт", a: 1024, hint: "1 Мбайт = 1024 Кбайт"}
+            ],
+            power: [
+                {q: "2³ = ?", a: 8, hint: "2 × 2 × 2 = 8"},
+                {q: "2⁴ = ?", a: 16, hint: "2⁴ = 16"},
+                {q: "2⁵ = ?", a: 32, hint: "2⁵ = 32"},
+                {q: "2⁶ = ?", a: 64, hint: "2⁶ = 64"},
+                {q: "2⁷ = ?", a: 128, hint: "2⁷ = 128"},
+                {q: "2⁸ = ?", a: 256, hint: "2⁸ = 256"},
+                {q: "2¹⁰ = ?", a: 1024, hint: "2¹⁰ = 1024 (1 Кбайт)"}
+            ],
+            
+            // 8 КЛАСС
+            logic8: [
+                {q: "A=1, B=0, найти A∧B (И)", a: 0, hint: "1 И 0 = 0"},
+                {q: "A=1, B=0, найти A∨B (ИЛИ)", a: 1, hint: "1 ИЛИ 0 = 1"},
+                {q: "A=1, найти ¬A (НЕ)", a: 0, hint: "НЕ 1 = 0"},
+                {q: "A=0, B=1, найти A∧B", a: 0, hint: "0 И 1 = 0"},
+                {q: "A=0, B=1, найти A∨B", a: 1, hint: "0 ИЛИ 1 = 1"},
+                {q: "A=1, B=1, найти A∧B", a: 1, hint: "1 И 1 = 1"},
+                {q: "A=1, B=1, найти A∨B", a: 1, hint: "1 ИЛИ 1 = 1"}
+            ],
+            truthTable: [
+                {q: "Сколько строк в таблице истинности для 2 переменных?", a: 4, hint: "2² = 4"},
+                {q: "Сколько строк в таблице истинности для 3 переменных?", a: 8, hint: "2³ = 8"},
+                {q: "Сколько строк в таблице истинности для 4 переменных?", a: 16, hint: "2⁴ = 16"},
+                {q: "Сколько строк в таблице истинности для 5 переменных?", a: 32, hint: "2⁵ = 32"}
+            ],
+            logicEq: [
+                {q: "A=1, B=0, C=1. Найти (A∧B)∨C", a: 1, hint: "(1 И 0) = 0, 0 ИЛИ 1 = 1"},
+                {q: "A=1, B=1, C=0. Найти A∧(B∨C)", a: 1, hint: "B∨C = 1 ИЛИ 0 = 1, 1 И 1 = 1"},
+                {q: "A=0, B=0. Найти ¬(A∧B)", a: 1, hint: "A∧B = 0, НЕ 0 = 1"}
+            ],
+            addition8: [
+                {q: "101₂ + 1₂ = ? (в десятичной)", a: 6, hint: "5 + 1 = 6"},
+                {q: "111₂ + 1₂ = ? (в десятичной)", a: 8, hint: "7 + 1 = 8"},
+                {q: "1010₂ + 101₂ = ? (в десятичной)", a: 15, hint: "10 + 5 = 15"}
+            ],
+            
+            // 9 КЛАСС - ОГЭ
+            oge10: [
+                {q: "Сколько бит в слове 'ИНФОРМАТИКА'? (1 символ = 8 бит)", a: 88, hint: "11 букв × 8 = 88"},
+                {q: "Сколько байт в слове 'КОМПЬЮТЕР'?", a: 9, hint: "9 букв = 9 байт"},
+                {q: "Текст из 20 символов занимает 160 бит. Сколько бит на символ?", a: 8, hint: "160 ÷ 20 = 8"},
+                {q: "Сколько бит в слове 'АЛГОРИТМ'?", a: 64, hint: "8 букв × 8 = 64"},
+                {q: "Сколько байт в слове 'ПРОГРАММА'?", a: 9, hint: "9 букв = 9 байт"}
+            ],
+            oge11: [
+                {q: "Скорость передачи 128000 бит/с. Сколько Кбайт за 1 секунду?", a: 15, hint: "128000÷8=16000 байт, 16000÷1024≈15.6"},
+                {q: "Файл 1.5 Мбайт передаётся за 12 сек. Скорость в Кбайт/с?", a: 128, hint: "1.5×1024=1536 Кбайт, 1536÷12=128"},
+                {q: "Скорость 512 Кбит/с. Сколько Мбайт за 16 секунд?", a: 1, hint: "512×16=8192 Кбит, ÷8=1024 Кбайт = 1 Мбайт"},
+                {q: "100 Мбит/с = ? Мбайт/с", a: 12.5, hint: "100 ÷ 8 = 12.5"}
+            ],
+            oge13: [
+                {q: "Для кодирования одного пикселя нужно 4 бита. Сколько цветов?", a: 16, hint: "2⁴ = 16 цветов"},
+                {q: "Сколько бит нужно для 256 цветов?", a: 8, hint: "2⁸ = 256"},
+                {q: "Глубина цвета 24 бита. Сколько цветов?", a: 16777216, hint: "2²⁴ ≈ 16.7 млн"},
+                {q: "Для 16 цветов нужно ? бит", a: 4, hint: "2⁴ = 16"},
+                {q: "Для 65536 цветов нужно ? бит", a: 16, hint: "2¹⁶ = 65536"}
+            ],
+            ogeHard: [
+                {q: "Сколько секунд для передачи 5 Мбайт при скорости 1 Мбит/с?", a: 40, hint: "5 Мбайт = 40 Мбит, 40÷1=40 сек"},
+                {q: "Текст 2 стр по 40 строк, 60 символов. Объём в байтах?", a: 4800, hint: "2×40×60=4800 байт"},
+                {q: "Фото 640×480 пикселей, 65536 цветов. Сколько памяти в байтах?", a: 614400, hint: "640×480×16 бит = 4915200 бит ÷8 = 614400 байт"}
+            ],
+            octal: [
+                {q: "10₈ = ? (в десятичной)", a: 8, hint: "1×8 + 0 = 8"},
+                {q: "17₈ = ? (в десятичной)", a: 15, hint: "1×8 + 7 = 15"},
+                {q: "20₈ = ? (в десятичной)", a: 16, hint: "2×8 + 0 = 16"},
+                {q: "77₈ = ? (в десятичной)", a: 63, hint: "7×8 + 7 = 63"},
+                {q: "100₈ = ? (в десятичной)", a: 64, hint: "1×64 + 0×8 + 0 = 64"}
+            ],
+            hex: [
+                {q: "A₁₆ = ? (в десятичной)", a: 10, hint: "A = 10"},
+                {q: "F₁₆ = ? (в десятичной)", a: 15, hint: "F = 15"},
+                {q: "10₁₆ = ? (в десятичной)", a: 16, hint: "1×16 + 0 = 16"},
+                {q: "1A₁₆ = ? (в десятичной)", a: 26, hint: "1×16 + 10 = 26"},
+                {q: "FF₁₆ = ? (в десятичной)", a: 255, hint: "15×16 + 15 = 255"},
+                {q: "100₁₆ = ? (в десятичной)", a: 256, hint: "1×256 + 0×16 + 0 = 256"}
+            ]
+        };
         
+        // =============== ЗАДАНИЯ ===============
         function newTask() {
-            const task = tasks[Math.floor(Math.random() * tasks.length)];
-            document.getElementById('target').innerHTML = task.q;
-            currentAnswer = task.a;
-            document.getElementById('hint').innerHTML = task.hint;
+            const modeTasks = tasks[currentMode];
+            if (!modeTasks) return;
+            
+            const task = modeTasks[Math.floor(Math.random() * modeTasks.length)];
+            currentQuestion = task.q;
+            currentTask = task.a;
+            currentHint = task.hint;
+            
+            document.getElementById('taskMain').innerHTML = currentQuestion;
+            document.getElementById('taskHint').innerHTML = currentHint || 'Набери ответ битами';
+            
             resetBits();
+            updateSum();
         }
         
         // =============== ПРОВЕРКА ===============
-        function check() {
+        function checkTask() {
             const sum = getSum();
             
-            if (sum === currentAnswer) {
+            if (Math.abs(sum - currentTask) < 0.01) {  // Для дробных чисел
                 score += 10;
                 solved++;
                 if (solved % 5 === 0) level++;
@@ -363,15 +643,33 @@
                 document.getElementById('score').innerHTML = score;
                 document.getElementById('level').innerHTML = level;
                 document.getElementById('solved').innerHTML = solved;
-                document.getElementById('status').innerHTML = '✅ ПРАВИЛЬНО! +10 очков';
+                document.getElementById('statusMessage').innerHTML = '✅ ПРАВИЛЬНО! +10 очков';
+                document.getElementById('statusMessage').className = 'status success';
                 
-                playBeep('success'); // Звук успеха
-                
+                playSound('success');
                 setTimeout(newTask, 1500);
             } else {
-                document.getElementById('status').innerHTML = `❌ ОШИБКА! Правильный ответ: ${currentAnswer}`;
-                playBeep('error'); // Звук ошибки
+                document.getElementById('statusMessage').innerHTML = `❌ ОШИБКА! Правильный ответ: ${currentTask}`;
+                document.getElementById('statusMessage').className = 'status error';
+                playSound('error');
             }
+        }
+        
+        // =============== ПОДСКАЗКА ===============
+        function showHint() {
+            if (currentHint) {
+                document.getElementById('taskHint').innerHTML = currentHint;
+            }
+        }
+        
+        // =============== СМЕНА РЕЖИМА ===============
+        function setMode(mode, element) {
+            currentMode = mode;
+            
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            element.classList.add('active');
+            
+            newTask();
         }
         
         // =============== КЛАВИАТУРА ===============
@@ -383,14 +681,16 @@
                 document.querySelectorAll('.bit')[idx].click();
                 e.preventDefault();
             }
-            
             if (key === ' ') {
-                check();
+                document.getElementById('checkBtn').click();
                 e.preventDefault();
             }
-            
             if (key === 'Enter') {
-                newTask();
+                document.getElementById('newTaskBtn').click();
+                e.preventDefault();
+            }
+            if (key === 'h' || key === 'H') {
+                document.getElementById('hintBtn').click();
                 e.preventDefault();
             }
         };
@@ -399,8 +699,9 @@
         createBits();
         newTask();
         
-        document.getElementById('checkBtn').onclick = check;
-        document.getElementById('newBtn').onclick = newTask;
+        document.getElementById('checkBtn').onclick = checkTask;
+        document.getElementById('hintBtn').onclick = showHint;
+        document.getElementById('newTaskBtn').onclick = newTask;
     </script>
 </body>
 </html>
