@@ -2,8 +2,8 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-    <title>Двоичный дозор - Тактильный тренажер</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Двоичный дозор - Компьютерная версия</title>
     <style>
         * {
             box-sizing: border-box;
@@ -13,95 +13,129 @@
         
         body {
             font-family: 'Courier New', 'Segoe UI', monospace;
-            background-color: #0a0f1e;
+            background: linear-gradient(135deg, #0a0f1e 0%, #1a2a3f 100%);
             color: #00ffaa;
             min-height: 100vh;
             display: flex;
             justify-content: center;
             align-items: center;
-            padding: 10px;
+            padding: 20px;
             margin: 0;
         }
         
         .container {
             max-width: 1200px;
             width: 100%;
-            background: linear-gradient(145deg, #0f1a2f 0%, #1a2a3f 100%);
+            background: rgba(15, 26, 47, 0.9);
             border: 2px solid #00ffaa;
             border-radius: 30px;
-            padding: 25px;
-            box-shadow: 0 0 30px rgba(0, 255, 170, 0.4);
+            padding: 30px;
+            box-shadow: 0 0 50px rgba(0, 255, 170, 0.3);
+            backdrop-filter: blur(5px);
         }
         
         h1 {
             text-align: center;
-            font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 5px;
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            margin-bottom: 10px;
             text-transform: uppercase;
-            letter-spacing: 4px;
-            text-shadow: 0 0 15px #00ffaa;
+            letter-spacing: 5px;
+            text-shadow: 0 0 20px #00ffaa;
             color: #fff;
         }
         
         .subtitle {
             text-align: center;
             color: #aaddcc;
-            margin-bottom: 25px;
-            font-size: 1.1rem;
+            margin-bottom: 30px;
+            font-size: 1.2rem;
             border-bottom: 1px dashed #00ffaa;
-            padding-bottom: 10px;
+            padding-bottom: 15px;
+        }
+        
+        .keyboard-hint {
+            background: #1a2a3f;
+            border: 1px solid #00ffaa;
+            border-radius: 40px;
+            padding: 10px 20px;
+            margin-bottom: 25px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            color: #aaddcc;
+        }
+        
+        .key {
+            display: inline-block;
+            background: #0a1a2a;
+            border: 2px solid #00ffaa;
+            border-radius: 10px;
+            padding: 5px 12px;
+            color: #00ffaa;
+            font-weight: bold;
+            margin: 0 5px;
+            box-shadow: 0 3px 0 #0a4a3a;
         }
         
         .stats-panel {
             display: flex;
             flex-wrap: wrap;
             justify-content: space-around;
-            gap: 10px;
+            gap: 15px;
             background: #0f1a2f;
-            border: 1px solid #00ffaa;
+            border: 2px solid #00ffaa;
             border-radius: 50px;
-            padding: 15px 20px;
-            margin-bottom: 25px;
-            box-shadow: inset 0 0 10px #001122;
+            padding: 20px 25px;
+            margin-bottom: 30px;
+            box-shadow: inset 0 0 15px #001122;
         }
         
         .stat-item {
             text-align: center;
-            min-width: 100px;
+            min-width: 120px;
         }
         
         .stat-label {
             color: #88ccbb;
-            font-size: 0.9rem;
+            font-size: 1rem;
             text-transform: uppercase;
+            letter-spacing: 2px;
         }
         
         .stat-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 10px #00ffaa;
+            text-shadow: 0 0 15px #00ffaa;
             line-height: 1.2;
         }
         
         .mode-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 12px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
         }
         
         .mode-card {
             background: #0f1a2f;
             border: 2px solid #2a4a5a;
             border-radius: 20px;
-            padding: 15px 5px;
+            padding: 20px 10px;
             text-align: center;
             cursor: pointer;
             transition: all 0.2s;
             font-weight: bold;
             color: #aaddcc;
             box-shadow: 0 5px 0 #0a1a2a;
+            font-size: 1.1rem;
+        }
+        
+        .mode-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 0 #0a1a2a;
+            border-color: #00ffaa;
         }
         
         .mode-card.active {
@@ -109,24 +143,23 @@
             background: #1a3a4a;
             color: #fff;
             box-shadow: 0 0 20px #00ffaa, 0 5px 0 #0a4a3a;
-            transform: translateY(-2px);
         }
         
         .mode-emoji {
-            font-size: 2.2rem;
-            margin-bottom: 5px;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
             filter: drop-shadow(0 0 5px #00ffaa);
         }
         
         .difficulty-selector {
             display: flex;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 20px;
+            margin-bottom: 30px;
         }
         
         .difficulty-btn {
-            padding: 12px 25px;
+            padding: 15px 30px;
             background: #0f1a2f;
             color: #aaddcc;
             border: 2px solid #2a4a5a;
@@ -134,52 +167,57 @@
             cursor: pointer;
             font-weight: bold;
             transition: all 0.2s;
-            font-size: 1.1rem;
-            box-shadow: 0 4px 0 #0a1a2a;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 0 #0a1a2a;
+        }
+        
+        .difficulty-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 7px 0 #0a1a2a;
         }
         
         .difficulty-btn.active {
             background: #00ffaa;
             border-color: #fff;
             color: #0a1a2a;
-            box-shadow: 0 0 20px #00ffaa, 0 4px 0 #0a6a4a;
+            box-shadow: 0 0 20px #00ffaa, 0 5px 0 #0a6a4a;
         }
         
         .task-panel {
             background: #0f1a2f;
-            border: 2px solid #00ffaa;
+            border: 3px solid #00ffaa;
             border-radius: 40px;
-            padding: 25px;
-            margin-bottom: 25px;
+            padding: 30px;
+            margin-bottom: 30px;
             text-align: center;
-            box-shadow: inset 0 0 15px #001122;
+            box-shadow: inset 0 0 20px #001122, 0 0 30px rgba(0, 255, 170, 0.3);
         }
         
         .task-description {
-            font-size: 1.3rem;
+            font-size: 1.5rem;
             color: #88ccbb;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
         
         .task-main {
-            font-size: clamp(2.5rem, 10vw, 5rem);
+            font-size: clamp(3rem, 8vw, 6rem);
             font-weight: bold;
             color: #fff;
-            text-shadow: 0 0 20px #00ffaa;
-            letter-spacing: 5px;
-            margin-bottom: 10px;
+            text-shadow: 0 0 30px #00ffaa;
+            letter-spacing: 8px;
+            margin-bottom: 15px;
             font-family: 'Courier New', monospace;
         }
         
         .task-hint {
             color: #aaddcc;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-style: italic;
             background: #1a2a3f;
-            padding: 8px 20px;
-            border-radius: 30px;
+            padding: 10px 30px;
+            border-radius: 40px;
             display: inline-block;
         }
         
@@ -187,51 +225,62 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
+            gap: 20px;
             margin-bottom: 30px;
         }
         
         .bit {
-            flex: 1 1 100px;
-            min-width: 85px;
-            height: 110px;
+            flex: 1 1 110px;
+            min-width: 100px;
+            height: 130px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: #0f1a2f;
             border: 3px solid #2a4a5a;
-            border-radius: 20px;
-            font-size: 2rem;
+            border-radius: 25px;
+            font-size: 2.2rem;
             font-weight: bold;
             color: #aaddcc;
             cursor: pointer;
             transition: all 0.2s;
             user-select: none;
-            -webkit-tap-highlight-color: transparent;
-            box-shadow: 0 6px 0 #0a1a2a;
+            box-shadow: 0 8px 0 #0a1a2a;
+            position: relative;
+        }
+        
+        .bit:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #0a1a2a;
+            border-color: #00ffaa;
+            background: #1a2a3f;
         }
         
         .bit.active {
             background: #00ffaa;
             border-color: #fff;
             color: #0a1a2a;
-            box-shadow: 0 0 30px #00ffaa, 0 6px 0 #0a6a4a;
+            box-shadow: 0 0 40px #00ffaa, 0 8px 0 #0a6a4a;
             transform: scale(1.05);
         }
         
+        .bit.active:hover {
+            transform: scale(1.05) translateY(-4px);
+        }
+        
         .bit-value {
-            font-size: 2rem;
+            font-size: 2.5rem;
             line-height: 1.2;
         }
         
         .bit-weight {
-            font-size: 0.9rem;
+            font-size: 1rem;
             color: #88ccbb;
             background: #1a2a3f;
-            padding: 3px 10px;
-            border-radius: 20px;
-            margin-top: 5px;
+            padding: 5px 15px;
+            border-radius: 30px;
+            margin-top: 8px;
         }
         
         .bit.active .bit-weight {
@@ -239,20 +288,31 @@
             color: #0a1a2a;
         }
         
+        .bit-number {
+            position: absolute;
+            top: 5px;
+            left: 10px;
+            font-size: 0.9rem;
+            color: #88ccbb;
+            background: #0a1a2a;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
         .control-panel {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 15px;
-            margin-bottom: 20px;
+            gap: 20px;
+            margin-bottom: 25px;
         }
         
         .btn {
-            min-width: 180px;
+            min-width: 200px;
             flex: 1;
-            padding: 18px 25px;
+            padding: 20px 30px;
             font-family: 'Courier New', monospace;
-            font-size: 1.3rem;
+            font-size: 1.4rem;
             font-weight: bold;
             border: none;
             border-radius: 60px;
@@ -265,11 +325,17 @@
         .btn-check {
             background: #00ffaa;
             color: #0a1a2a;
-            box-shadow: 0 6px 0 #0a6a4a;
+            box-shadow: 0 8px 0 #0a6a4a;
+        }
+        
+        .btn-check:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #0a6a4a;
+            filter: brightness(1.1);
         }
         
         .btn-check:active {
-            transform: translateY(6px);
+            transform: translateY(8px);
             box-shadow: none;
         }
         
@@ -277,93 +343,126 @@
             background: #1a2a3f;
             color: #00ffaa;
             border: 2px solid #00ffaa;
-            box-shadow: 0 6px 0 #0a1a2a;
+            box-shadow: 0 8px 0 #0a1a2a;
+        }
+        
+        .btn-hint:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 11px 0 #0a1a2a;
+            background: #2a3a4f;
         }
         
         .btn-hint:active {
-            transform: translateY(6px);
+            transform: translateY(8px);
             box-shadow: none;
         }
         
         .status {
-            margin-top: 20px;
-            padding: 18px;
+            margin-top: 25px;
+            padding: 20px;
             text-align: center;
-            font-size: 1.4rem;
-            border-radius: 50px;
+            font-size: 1.6rem;
+            border-radius: 60px;
             background: #0f1a2f;
             border: 2px solid #2a4a5a;
             color: #aaddcc;
             font-weight: bold;
+            transition: all 0.3s;
         }
         
         .status.success {
             background: #00ffaa;
             border-color: #fff;
             color: #0a1a2a;
+            box-shadow: 0 0 30px #00ffaa;
         }
         
         .status.error {
             background: #ff5577;
             border-color: #fff;
             color: #fff;
+            box-shadow: 0 0 30px #ff5577;
         }
         
-        .vibration-status {
+        .sound-status {
             margin-top: 15px;
             font-size: 1rem;
             color: #88ccbb;
             text-align: center;
-            padding: 10px;
-            border-top: 1px dashed #2a4a5a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .sound-toggle {
+            background: none;
+            border: 2px solid #00ffaa;
+            color: #00ffaa;
+            padding: 8px 20px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 1rem;
+        }
+        
+        .sound-toggle:hover {
+            background: #00ffaa;
+            color: #0a1a2a;
         }
         
         .logic-gates {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 25px;
-            margin: 25px 0;
+            gap: 30px;
+            margin: 30px 0;
         }
         
         .logic-gate {
-            width: 130px;
-            height: 130px;
+            width: 150px;
+            height: 150px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             background: #0f1a2f;
-            border: 3px solid #00ffaa;
+            border: 4px solid #00ffaa;
             border-radius: 50%;
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: #00ffaa;
             cursor: pointer;
             transition: all 0.2s;
-            box-shadow: 0 6px 0 #0a1a2a;
+            box-shadow: 0 8px 0 #0a1a2a;
+        }
+        
+        .logic-gate:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 0 #0a1a2a;
+            background: #1a2a3f;
         }
         
         .logic-gate:active {
-            transform: scale(0.95) translateY(6px);
+            transform: translateY(8px);
             box-shadow: none;
             background: #00ffaa;
             color: #0a1a2a;
         }
         
         .gate-name {
-            font-size: 1.2rem;
-            margin-top: 8px;
+            font-size: 1.3rem;
+            margin-top: 10px;
         }
         
         .progress-bar {
             width: 100%;
-            height: 12px;
+            height: 15px;
             background: #0f1a2f;
-            border-radius: 6px;
-            margin: 20px 0;
+            border-radius: 8px;
+            margin: 25px 0;
             overflow: hidden;
-            border: 1px solid #2a4a5a;
+            border: 2px solid #2a4a5a;
         }
         
         .progress-fill {
@@ -371,42 +470,24 @@
             background: linear-gradient(90deg, #00ffaa, #aaffdd);
             width: 0%;
             transition: width 0.3s;
-            box-shadow: 0 0 10px #00ffaa;
-        }
-        
-        @media (max-width: 600px) {
-            .bit {
-                min-width: 70px;
-                height: 95px;
-                font-size: 1.6rem;
-            }
-            
-            .mode-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-            
-            .mode-card {
-                padding: 10px 2px;
-                font-size: 0.9rem;
-            }
-            
-            .logic-gate {
-                width: 100px;
-                height: 100px;
-                font-size: 1.5rem;
-            }
-            
-            .btn {
-                padding: 15px 15px;
-                font-size: 1.1rem;
-                min-width: 140px;
-            }
+            box-shadow: 0 0 15px #00ffaa;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
+        <div class="subtitle">компьютерная версия • тренажёр для юных хакеров</div>
+        
+        <!-- Подсказка по клавиатуре -->
+        <div class="keyboard-hint">
+            <span>🎮 Управление с клавиатуры:</span>
+            <span><span class="key">1</span>–<span class="key">8</span> — биты</span>
+            <span><span class="key">Пробел</span> — проверить</span>
+            <span><span class="key">Enter</span> — новое задание</span>
+            <span><span class="key">H</span> — подсказка</span>
+        </div>
+        
         <!-- Статистика -->
         <div class="stats-panel">
             <div class="stat-item">
@@ -471,7 +552,7 @@
         <div class="task-panel" id="taskPanel">
             <div class="task-description" id="taskDescription">Введите число в двоичной системе</div>
             <div class="task-main" id="taskMain">0</div>
-            <div class="task-hint" id="taskHint">Нажимайте на биты, чтобы включить</div>
+            <div class="task-hint" id="taskHint">Нажимайте на биты или клавиши 1-8</div>
         </div>
         
         <!-- Контейнер для битов -->
@@ -490,9 +571,10 @@
         <!-- Статус -->
         <div class="status" id="statusMessage">Добро пожаловать в Двоичный дозор!</div>
         
-        <!-- Информация о вибрации -->
-        <div class="vibration-status" id="vibrationStatus">
-            📱 Вибрация: <span id="vibrationSupport">проверка...</span>
+        <!-- Звуковой статус -->
+        <div class="sound-status">
+            <span>🔊 Звуковые подсказки</span>
+            <button class="sound-toggle" id="soundToggle">🔇 Выключить</button>
         </div>
     </div>
 
@@ -510,9 +592,12 @@
         let streak = 0;
         let currentTask = {};
         let tasksCompleted = 0;
-        let vibrationSupported = false;
+        let soundEnabled = true;
         
-        // База заданий (полностью на русском)
+        // Создаём аудио-контекст для звуков
+        let audioCtx = null;
+        
+        // База заданий
         const taskDatabase = {
             binary: {
                 1: [
@@ -583,43 +668,62 @@
         };
         
         // ===============================================
-        // ПРОВЕРКА ПОДДЕРЖКИ ВИБРАЦИИ
+        // ЗВУКОВЫЕ ФУНКЦИИ
         // ===============================================
-        function checkVibrationSupport() {
-            if ('vibrate' in navigator) {
-                vibrationSupported = true;
-                document.getElementById('vibrationSupport').innerHTML = '✅ ПОДДЕРЖИВАЕТСЯ';
-                document.getElementById('vibrationSupport').style.color = '#00ffaa';
-            } else {
-                vibrationSupported = false;
-                document.getElementById('vibrationSupport').innerHTML = '❌ НЕ ПОДДЕРЖИВАЕТСЯ';
-                document.getElementById('vibrationSupport').style.color = '#ff5577';
-            }
-        }
-        
-        // ===============================================
-        // ВИБРАЦИЯ
-        // ===============================================
-        function vibrate(pattern) {
-            if (vibrationSupported) {
+        function initAudio() {
+            if (!audioCtx) {
                 try {
-                    navigator.vibrate(pattern);
-                } catch (e) {}
+                    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                } catch (e) {
+                    console.log('Web Audio API не поддерживается');
+                }
             }
         }
         
-        // ===============================================
-        // ВИБРАЦИЯ БИТА
-        // ===============================================
-        function vibrateBit(bitIndex) {
-            if (!vibrationSupported) return;
-            const count = bitIndex + 1;
-            let pattern = [];
-            for (let i = 0; i < count; i++) {
-                pattern.push(120);
-                if (i < count - 1) pattern.push(60);
+        function playBeep(frequency, duration, type = 'sine') {
+            if (!soundEnabled || !audioCtx) return;
+            
+            try {
+                if (audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                
+                oscillator.type = type;
+                oscillator.frequency.value = frequency;
+                
+                gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration/1000);
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                
+                oscillator.start();
+                oscillator.stop(audioCtx.currentTime + duration/1000);
+            } catch (e) {
+                console.log('Ошибка воспроизведения звука');
             }
-            vibrate(pattern);
+        }
+        
+        function playBitSound(bitIndex) {
+            if (!soundEnabled) return;
+            // Частота зависит от веса бита: 128 -> 200Hz, 1 -> 800Hz
+            const freq = 200 + (bitIndex * 80);
+            playBeep(freq, 150, 'sine');
+        }
+        
+        function playSuccessSound() {
+            if (!soundEnabled) return;
+            playBeep(600, 100);
+            setTimeout(() => playBeep(800, 150), 120);
+            setTimeout(() => playBeep(1000, 200), 250);
+        }
+        
+        function playErrorSound() {
+            if (!soundEnabled) return;
+            playBeep(300, 300, 'sawtooth');
         }
         
         // ===============================================
@@ -636,17 +740,12 @@
                 bitDiv.dataset.value = bitValues[i];
                 
                 bitDiv.innerHTML = `
+                    <div class="bit-number">${i+1}</div>
                     <div class="bit-value">${bitValues[i]}</div>
                     <div class="bit-weight">${i+1}</div>
                 `;
                 
                 bitDiv.addEventListener('click', function(e) {
-                    const idx = parseInt(this.dataset.index);
-                    toggleBit(idx);
-                });
-                
-                bitDiv.addEventListener('touchstart', function(e) {
-                    e.preventDefault();
                     const idx = parseInt(this.dataset.index);
                     toggleBit(idx);
                 });
@@ -664,11 +763,11 @@
             const bitElements = document.querySelectorAll('.bit');
             if (activeBits[index]) {
                 bitElements[index].classList.add('active');
+                playBitSound(index);
             } else {
                 bitElements[index].classList.remove('active');
             }
             
-            vibrateBit(index);
             updateSum();
         }
         
@@ -824,7 +923,6 @@
                     hint: task.hint
                 };
                 
-                // Показываем паттерн
                 if (Array.isArray(task.answer)) {
                     setBits(task.answer);
                 }
@@ -875,8 +973,7 @@
                 }
             }
             else if (currentMode === 'logic' || currentMode === 'comparison') {
-                // В реальном приложении здесь будет проверка
-                isCorrect = Math.random() > 0.3; // Заглушка для демо
+                isCorrect = Math.random() > 0.3;
             }
             
             if (isCorrect) {
@@ -892,11 +989,11 @@
                 document.getElementById('statusMessage').innerHTML = '✅ ВЕРНО! +10 очков';
                 document.getElementById('statusMessage').className = 'status success';
                 
-                vibrate([200, 100, 200, 100, 200]);
+                playSuccessSound();
                 
                 if (tasksCompleted % 5 === 0) {
                     level++;
-                    vibrate([500]);
+                    playBeep(800, 500);
                 }
                 
                 setTimeout(() => {
@@ -908,7 +1005,7 @@
                 document.getElementById('statusMessage').innerHTML = '❌ НЕВЕРНО! Попробуй ещё';
                 document.getElementById('statusMessage').className = 'status error';
                 
-                vibrate([300, 100, 300]);
+                playErrorSound();
             }
             
             updateStats();
@@ -920,7 +1017,7 @@
         function showHint() {
             if (currentTask.hint) {
                 document.getElementById('statusMessage').innerHTML = '💡 ' + currentTask.hint;
-                vibrate([100]);
+                playBeep(400, 100);
             }
         }
         
@@ -1013,29 +1110,83 @@
         // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
         // ===============================================
         function selectGate(gate) {
-            let count = gate === 'AND' ? 1 : gate === 'OR' ? 2 : 3;
-            vibrate(Array(count).fill(150).reduce((a, b, i) => a.concat(b, i < count-1 ? 50 : []), []));
             document.getElementById('statusMessage').innerHTML = `Выбран элемент ${gate}`;
-            // Здесь можно добавить логику проверки
+            playBeep(500, 100);
         }
         
         function selectComparison(comp) {
-            vibrate([100]);
             document.getElementById('statusMessage').innerHTML = `Выбран знак ${comp === 'greater' ? '>' : comp === 'less' ? '<' : '='}`;
-            // Здесь можно добавить логику проверки
+            playBeep(500, 100);
+        }
+        
+        // ===============================================
+        // ОБРАБОТКА КЛАВИАТУРЫ
+        // ===============================================
+        function handleKeyDown(e) {
+            const key = e.key;
+            
+            // Цифры 1-8 для битов
+            if (key >= '1' && key <= '8') {
+                const bitIndex = parseInt(key) - 1;
+                toggleBit(bitIndex);
+                e.preventDefault();
+            }
+            
+            // Пробел - проверить
+            if (key === ' ') {
+                checkTask();
+                e.preventDefault();
+            }
+            
+            // Enter - новое задание
+            if (key === 'Enter') {
+                generateTask();
+                e.preventDefault();
+            }
+            
+            // H - подсказка
+            if (key === 'h' || key === 'H') {
+                showHint();
+                e.preventDefault();
+            }
+        }
+        
+        // ===============================================
+        // ПЕРЕКЛЮЧЕНИЕ ЗВУКА
+        // ===============================================
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            const btn = document.getElementById('soundToggle');
+            btn.innerHTML = soundEnabled ? '🔇 Выключить' : '🔊 Включить';
+            
+            if (soundEnabled) {
+                playBeep(600, 100);
+            }
         }
         
         // ===============================================
         // ИНИЦИАЛИЗАЦИЯ
         // ===============================================
         window.onload = function() {
-            checkVibrationSupport();
+            initAudio();
             createBits();
             generateTask();
             
             document.getElementById('checkBtn').addEventListener('click', checkTask);
             document.getElementById('hintBtn').addEventListener('click', showHint);
             document.getElementById('newTaskBtn').addEventListener('click', generateTask);
+            document.getElementById('soundToggle').addEventListener('click', toggleSound);
+            
+            // Добавляем обработчик клавиатуры
+            document.addEventListener('keydown', handleKeyDown);
+            
+            // Активируем аудио контекст при первом взаимодействии
+            document.body.addEventListener('click', function initAudioOnFirstClick() {
+                if (audioCtx && audioCtx.state === 'suspended') {
+                    audioCtx.resume();
+                }
+                document.body.removeEventListener('click', initAudioOnFirstClick);
+            }, { once: true });
         };
     </script>
 </body>
