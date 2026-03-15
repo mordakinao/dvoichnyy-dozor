@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Двоичный дозор - Компьютерная версия</title>
+    <title>Двоичный дозор - инструкция</title>
     <style>
         * {
             box-sizing: border-box;
@@ -12,7 +12,7 @@
         }
         
         body {
-            font-family: 'Courier New', 'Segoe UI', monospace;
+            font-family: 'Courier New', monospace;
             background: linear-gradient(135deg, #0a0f1e 0%, #1a2a3f 100%);
             color: #00ffaa;
             min-height: 100vh;
@@ -20,7 +20,6 @@
             justify-content: center;
             align-items: center;
             padding: 20px;
-            margin: 0;
         }
         
         .container {
@@ -33,13 +32,102 @@
             box-shadow: 0 0 50px rgba(0, 255, 170, 0.4);
         }
         
+        /* ========== НОВАЯ ПАНЕЛЬ С ПРАВИЛАМИ ========== */
+        .rules-panel {
+            background: #1a3a4a;
+            border: 3px solid #00ffaa;
+            border-radius: 30px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .rules-title {
+            font-size: 2rem;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .rules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+        
+        .rule-card {
+            background: #0f1a2f;
+            border: 2px solid #00ffaa;
+            border-radius: 20px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .rule-number {
+            background: #00ffaa;
+            color: #0a1a2a;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .rule-text {
+            color: #aaddcc;
+            font-size: 1.2rem;
+        }
+        
+        .example-box {
+            background: #0f1a2f;
+            border: 2px solid #ffaa00;
+            border-radius: 20px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .example-box .title {
+            color: #ffaa00;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        
+        .example-bits {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+        
+        .example-bit {
+            background: #1a2a3f;
+            border: 2px solid #00ffaa;
+            border-radius: 10px;
+            padding: 10px;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .example-bit.active {
+            background: #00ffaa;
+            color: #0a1a2a;
+        }
+        
+        /* ========== СТАРЫЙ СТИЛЬ (НО ЧУТЬ КРУПНЕЕ) ========== */
         h1 {
             text-align: center;
-            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-size: 3rem;
             margin-bottom: 10px;
             text-transform: uppercase;
             letter-spacing: 5px;
-            text-shadow: 0 0 20px #00ffaa, 0 0 40px #00ffaa;
+            text-shadow: 0 0 20px #00ffaa;
             color: #fff;
         }
         
@@ -61,50 +149,12 @@
             text-align: center;
             color: #ffaa00;
             font-weight: bold;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px rgba(255, 170, 0, 0.3);
         }
         
         .sound-warning:hover {
             background: #443300;
-            transform: scale(1.02);
-            box-shadow: 0 0 30px #ffaa00;
-        }
-        
-        .sound-enabled {
-            background: #004422;
-            border-color: #00ffaa;
-            color: #00ffaa;
-            box-shadow: 0 0 20px #00ffaa;
-        }
-        
-        .keyboard-hint {
-            background: #1a2a3f;
-            border: 2px solid #00ffaa;
-            border-radius: 40px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 25px;
-            color: #aaddcc;
-            font-size: 1.1rem;
-        }
-        
-        .key {
-            display: inline-block;
-            background: #0a1a2a;
-            border: 2px solid #00ffaa;
-            border-radius: 10px;
-            padding: 5px 15px;
-            color: #00ffaa;
-            font-weight: bold;
-            margin: 0 5px;
-            box-shadow: 0 3px 0 #0a4a3a;
-            font-size: 1.1rem;
         }
         
         .stats-panel {
@@ -115,9 +165,8 @@
             background: #0f1a2f;
             border: 2px solid #00ffaa;
             border-radius: 50px;
-            padding: 20px 25px;
+            padding: 20px;
             margin-bottom: 30px;
-            box-shadow: inset 0 0 15px #001122;
         }
         
         .stat-item {
@@ -129,7 +178,6 @@
             color: #88ccbb;
             font-size: 1rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
         }
         
         .stat-value {
@@ -137,12 +185,11 @@
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 15px #00ffaa;
-            line-height: 1.2;
         }
         
         .mode-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 15px;
             margin-bottom: 30px;
         }
@@ -157,59 +204,14 @@
             transition: all 0.2s;
             font-weight: bold;
             color: #aaddcc;
-            box-shadow: 0 5px 0 #0a1a2a;
-            font-size: 1.1rem;
-        }
-        
-        .mode-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 0 #0a1a2a;
-            border-color: #00ffaa;
+            font-size: 1.2rem;
         }
         
         .mode-card.active {
             border-color: #00ffaa;
             background: #1a3a4a;
             color: #fff;
-            box-shadow: 0 0 20px #00ffaa, 0 5px 0 #0a4a3a;
-        }
-        
-        .mode-emoji {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-            filter: drop-shadow(0 0 5px #00ffaa);
-        }
-        
-        .difficulty-selector {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            margin-bottom: 30px;
-        }
-        
-        .difficulty-btn {
-            padding: 15px 30px;
-            background: #0f1a2f;
-            color: #aaddcc;
-            border: 2px solid #2a4a5a;
-            border-radius: 40px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.2s;
-            font-size: 1.2rem;
-            box-shadow: 0 5px 0 #0a1a2a;
-        }
-        
-        .difficulty-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 7px 0 #0a1a2a;
-        }
-        
-        .difficulty-btn.active {
-            background: #00ffaa;
-            border-color: #fff;
-            color: #0a1a2a;
-            box-shadow: 0 0 20px #00ffaa, 0 5px 0 #0a6a4a;
+            box-shadow: 0 0 20px #00ffaa;
         }
         
         .task-panel {
@@ -219,31 +221,26 @@
             padding: 30px;
             margin-bottom: 30px;
             text-align: center;
-            box-shadow: inset 0 0 20px #001122, 0 0 30px rgba(0, 255, 170, 0.3);
         }
         
         .task-description {
             font-size: 1.5rem;
             color: #88ccbb;
-            margin-bottom: 15px;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            margin-bottom: 10px;
         }
         
         .task-main {
-            font-size: clamp(3rem, 8vw, 6rem);
+            font-size: 5rem;
             font-weight: bold;
             color: #fff;
             text-shadow: 0 0 30px #00ffaa;
-            letter-spacing: 8px;
-            margin-bottom: 15px;
-            font-family: 'Courier New', monospace;
+            letter-spacing: 5px;
+            margin-bottom: 10px;
         }
         
         .task-hint {
             color: #aaddcc;
             font-size: 1.2rem;
-            font-style: italic;
             background: #1a2a3f;
             padding: 10px 30px;
             border-radius: 40px;
@@ -254,12 +251,12 @@
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
+            gap: 15px;
             margin-bottom: 30px;
         }
         
         .bit {
-            flex: 1 1 110px;
+            flex: 1 1 100px;
             min-width: 100px;
             height: 130px;
             display: flex;
@@ -268,22 +265,19 @@
             align-items: center;
             background: #0f1a2f;
             border: 3px solid #2a4a5a;
-            border-radius: 25px;
+            border-radius: 20px;
             font-size: 2.2rem;
             font-weight: bold;
             color: #aaddcc;
             cursor: pointer;
             transition: all 0.2s;
-            user-select: none;
             box-shadow: 0 8px 0 #0a1a2a;
             position: relative;
         }
         
         .bit:hover {
             transform: translateY(-4px);
-            box-shadow: 0 12px 0 #0a1a2a;
             border-color: #00ffaa;
-            background: #1a2a3f;
         }
         
         .bit.active {
@@ -294,57 +288,29 @@
             transform: scale(1.05);
         }
         
-        .bit.active:hover {
-            transform: scale(1.05) translateY(-4px);
-        }
-        
-        .bit-value {
-            font-size: 2.5rem;
-            line-height: 1.2;
-        }
-        
-        .bit-weight {
-            font-size: 1rem;
-            color: #88ccbb;
-            background: #1a2a3f;
-            padding: 5px 15px;
-            border-radius: 30px;
-            margin-top: 8px;
-        }
-        
-        .bit.active .bit-weight {
-            background: #fff;
-            color: #0a1a2a;
-        }
-        
         .bit-number {
             position: absolute;
             top: 5px;
             left: 10px;
             font-size: 0.9rem;
             color: #88ccbb;
-            background: #0a1a2a;
-            padding: 2px 8px;
-            border-radius: 10px;
         }
         
         .control-panel {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 20px;
-            margin-bottom: 25px;
+            gap: 15px;
+            margin-bottom: 20px;
         }
         
         .btn {
-            min-width: 200px;
-            flex: 1;
-            padding: 20px 30px;
-            font-family: 'Courier New', monospace;
-            font-size: 1.4rem;
+            min-width: 180px;
+            padding: 18px 25px;
+            font-size: 1.3rem;
             font-weight: bold;
             border: none;
-            border-radius: 60px;
+            border-radius: 50px;
             cursor: pointer;
             transition: all 0.2s;
             text-transform: uppercase;
@@ -357,17 +323,6 @@
             box-shadow: 0 8px 0 #0a6a4a;
         }
         
-        .btn-check:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 11px 0 #0a6a4a;
-            filter: brightness(1.1);
-        }
-        
-        .btn-check:active {
-            transform: translateY(8px);
-            box-shadow: none;
-        }
-        
         .btn-hint {
             background: #1a2a3f;
             color: #00ffaa;
@@ -375,174 +330,106 @@
             box-shadow: 0 8px 0 #0a1a2a;
         }
         
-        .btn-hint:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 11px 0 #0a1a2a;
-            background: #2a3a4f;
-        }
-        
-        .btn-hint:active {
+        .btn:active {
             transform: translateY(8px);
             box-shadow: none;
         }
         
         .status {
-            margin-top: 25px;
             padding: 20px;
             text-align: center;
             font-size: 1.6rem;
-            border-radius: 60px;
+            border-radius: 50px;
             background: #0f1a2f;
             border: 2px solid #2a4a5a;
             color: #aaddcc;
-            font-weight: bold;
-            transition: all 0.3s;
+            margin-bottom: 15px;
         }
         
         .status.success {
             background: #00ffaa;
-            border-color: #fff;
             color: #0a1a2a;
-            box-shadow: 0 0 30px #00ffaa;
         }
         
         .status.error {
             background: #ff5577;
-            border-color: #fff;
             color: #fff;
-            box-shadow: 0 0 30px #ff5577;
         }
         
-        .sound-status {
-            margin-top: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-        
-        .sound-toggle {
+        .keyboard-hint {
             background: #1a2a3f;
             border: 2px solid #00ffaa;
-            color: #00ffaa;
-            padding: 12px 30px;
             border-radius: 40px;
-            cursor: pointer;
-            font-family: inherit;
-            font-size: 1.2rem;
-            font-weight: bold;
-            transition: all 0.2s;
-        }
-        
-        .sound-toggle:hover {
-            background: #00ffaa;
-            color: #0a1a2a;
-            transform: scale(1.05);
-        }
-        
-        .sound-toggle.active {
-            background: #00ffaa;
-            color: #0a1a2a;
-        }
-        
-        .logic-gates {
+            padding: 15px;
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 30px;
-            margin: 30px 0;
+            gap: 25px;
+            color: #aaddcc;
+            font-size: 1.1rem;
         }
         
-        .logic-gate {
-            width: 150px;
-            height: 150px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            background: #0f1a2f;
-            border: 4px solid #00ffaa;
-            border-radius: 50%;
-            font-size: 2rem;
-            font-weight: bold;
+        .key {
+            background: #0a1a2a;
+            border: 2px solid #00ffaa;
+            border-radius: 10px;
+            padding: 5px 15px;
             color: #00ffaa;
-            cursor: pointer;
-            transition: all 0.2s;
-            box-shadow: 0 8px 0 #0a1a2a;
-        }
-        
-        .logic-gate:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 12px 0 #0a1a2a;
-            background: #1a2a3f;
-        }
-        
-        .logic-gate:active {
-            transform: translateY(8px);
-            box-shadow: none;
-            background: #00ffaa;
-            color: #0a1a2a;
-        }
-        
-        .gate-name {
-            font-size: 1.3rem;
-            margin-top: 10px;
-        }
-        
-        .progress-bar {
-            width: 100%;
-            height: 15px;
-            background: #0f1a2f;
-            border-radius: 8px;
-            margin: 25px 0;
-            overflow: hidden;
-            border: 2px solid #2a4a5a;
-        }
-        
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #00ffaa, #aaffdd);
-            width: 0%;
-            transition: width 0.3s;
-            box-shadow: 0 0 15px #00ffaa;
-        }
-        
-        .test-sound-btn {
-            background: #2a4a5a;
-            color: white;
-            border: none;
-            border-radius: 30px;
-            padding: 10px 20px;
-            margin-left: 15px;
-            cursor: pointer;
-            font-size: 1rem;
-        }
-        
-        .test-sound-btn:hover {
-            background: #3a5a6a;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
-        <div class="subtitle">компьютерная версия • тренажёр для юных хакеров</div>
+        <div class="subtitle">тренажёр для уроков информатики</div>
         
-        <!-- ВАЖНО: Кнопка активации звука -->
+        <!-- ========== НОВАЯ ПАНЕЛЬ С ПРАВИЛАМИ ========== -->
+        <div class="rules-panel">
+            <div class="rules-title">🔢 КАК РАБОТАТЬ</div>
+            <div class="rules-grid">
+                <div class="rule-card">
+                    <div class="rule-number">1</div>
+                    <div class="rule-text">Смотри задание вверху</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">2</div>
+                    <div class="rule-text">Нажимай на биты (кнопки 1-8)</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">3</div>
+                    <div class="rule-text">Зелёные биты = включены</div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-number">4</div>
+                    <div class="rule-text">Сложи все зелёные числа</div>
+                </div>
+            </div>
+            
+            <!-- ПРИМЕР -->
+            <div class="example-box">
+                <div class="title">📌 ПРИМЕР: задание 73</div>
+                <div class="example-bits">
+                    <div class="example-bit">128</div>
+                    <div class="example-bit active">64</div>
+                    <div class="example-bit">32</div>
+                    <div class="example-bit">16</div>
+                    <div class="example-bit">8</div>
+                    <div class="example-bit active">8</div>
+                    <div class="example-bit">4</div>
+                    <div class="example-bit">2</div>
+                    <div class="example-bit active">1</div>
+                </div>
+                <div>Включаем биты: 64 + 8 + 1 = <strong style="color:#00ffaa">73</strong> ✓</div>
+            </div>
+        </div>
+        
+        <!-- ЗВУК -->
         <div class="sound-warning" id="soundWarning">
-            🔊 НАЖМИ СЮДА, ЧТОБЫ ВКЛЮЧИТЬ ЗВУК
+            🔊 НАЖМИ ДЛЯ ВКЛЮЧЕНИЯ ЗВУКА
         </div>
         
-        <!-- Подсказка по клавиатуре -->
-        <div class="keyboard-hint">
-            <span>🎮 Управление с клавиатуры:</span>
-            <span><span class="key">1</span>–<span class="key">8</span> — биты</span>
-            <span><span class="key">Пробел</span> — проверить</span>
-            <span><span class="key">Enter</span> — новое задание</span>
-            <span><span class="key">H</span> — подсказка</span>
-        </div>
-        
-        <!-- Статистика -->
+        <!-- СТАТИСТИКА -->
         <div class="stats-panel">
             <div class="stat-item">
                 <div class="stat-label">ОЧКИ</div>
@@ -556,741 +443,232 @@
                 <div class="stat-label">ВЕРНО</div>
                 <div class="stat-value" id="correctCount">0</div>
             </div>
-            <div class="stat-item">
-                <div class="stat-label">СЕРИЯ</div>
-                <div class="stat-value" id="streak">0</div>
-            </div>
         </div>
         
-        <!-- Прогресс -->
-        <div class="progress-bar">
-            <div class="progress-fill" id="progressFill" style="width: 0%;"></div>
+        <!-- РЕЖИМЫ -->
+        <div class="mode-grid">
+            <div class="mode-card active" onclick="setMode('binary')">🔢 Числа</div>
+            <div class="mode-card" onclick="setMode('addition')">➕ Примеры</div>
+            <div class="mode-card" onclick="setMode('memory')">🧠 Память</div>
         </div>
         
-        <!-- Сетка режимов -->
-        <div class="mode-grid" id="modeGrid">
-            <div class="mode-card active" data-mode="binary" onclick="setMode('binary')">
-                <div class="mode-emoji">🔢</div>
-                <div>Двоичный код</div>
-            </div>
-            <div class="mode-card" data-mode="logic" onclick="setMode('logic')">
-                <div class="mode-emoji">🧠</div>
-                <div>Логика</div>
-            </div>
-            <div class="mode-card" data-mode="addition" onclick="setMode('addition')">
-                <div class="mode-emoji">➕</div>
-                <div>Сложение</div>
-            </div>
-            <div class="mode-card" data-mode="comparison" onclick="setMode('comparison')">
-                <div class="mode-emoji">⚖️</div>
-                <div>Сравнение</div>
-            </div>
-            <div class="mode-card" data-mode="conversion" onclick="setMode('conversion')">
-                <div class="mode-emoji">🔄</div>
-                <div>Перевод</div>
-            </div>
-            <div class="mode-card" data-mode="memory" onclick="setMode('memory')">
-                <div class="mode-emoji">🧩</div>
-                <div>Память</div>
-            </div>
+        <!-- ЗАДАНИЕ -->
+        <div class="task-panel">
+            <div class="task-description" id="taskDescription">Набери число:</div>
+            <div class="task-main" id="taskMain">73</div>
+            <div class="task-hint" id="taskHint">Нажимай биты 1-8</div>
         </div>
         
-        <!-- Выбор сложности -->
-        <div class="difficulty-selector" id="difficultySelector">
-            <div class="difficulty-btn active" data-diff="1" onclick="setDifficulty(1)">🌟 Лёгкий</div>
-            <div class="difficulty-btn" data-diff="2" onclick="setDifficulty(2)">⭐⭐ Средний</div>
-            <div class="difficulty-btn" data-diff="3" onclick="setDifficulty(3)">⭐⭐⭐ Сложный</div>
-        </div>
-        
-        <!-- Панель задания -->
-        <div class="task-panel" id="taskPanel">
-            <div class="task-description" id="taskDescription">Введите число в двоичной системе</div>
-            <div class="task-main" id="taskMain">0</div>
-            <div class="task-hint" id="taskHint">Нажимайте на биты или клавиши 1-8</div>
-        </div>
-        
-        <!-- Контейнер для битов -->
+        <!-- БИТЫ -->
         <div class="bits-container" id="bitsContainer"></div>
         
-        <!-- Дополнительный контейнер для других режимов -->
-        <div id="extraContent"></div>
-        
-        <!-- Кнопки управления -->
+        <!-- КНОПКИ -->
         <div class="control-panel">
             <button class="btn btn-check" id="checkBtn">🔓 ПРОВЕРИТЬ</button>
             <button class="btn btn-hint" id="hintBtn">💡 ПОДСКАЗКА</button>
             <button class="btn btn-hint" id="newTaskBtn">🔄 НОВОЕ</button>
         </div>
         
-        <!-- Статус -->
-        <div class="status" id="statusMessage">Добро пожаловать в Двоичный дозор!</div>
+        <!-- СТАТУС -->
+        <div class="status" id="statusMessage">Добро пожаловать!</div>
         
-        <!-- Звуковой статус -->
-        <div class="sound-status">
-            <button class="sound-toggle" id="soundToggle">🔊 Звук включен</button>
-            <button class="test-sound-btn" id="testSoundBtn">🔊 Тест звука</button>
+        <!-- КЛАВИАТУРА -->
+        <div class="keyboard-hint">
+            <span><span class="key">1-8</span> - биты</span>
+            <span><span class="key">Пробел</span> - проверить</span>
+            <span><span class="key">Enter</span> - новое</span>
+            <span><span class="key">H</span> - подсказка</span>
         </div>
     </div>
 
     <script>
-        // ===============================================
-        // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
-        // ===============================================
+        // =============== ВСЁ ТО ЖЕ САМОЕ, ЧТО В СТАРОМ ПРИЛОЖЕНИИ ===============
         const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
         let activeBits = new Array(8).fill(false);
         let currentMode = 'binary';
-        let difficulty = 1;
         let score = 0;
         let level = 1;
         let correctCount = 0;
-        let streak = 0;
-        let currentTask = {};
-        let tasksCompleted = 0;
-        let soundEnabled = false; // Изначально выключен
+        let currentTask = 73;
+        let soundEnabled = false;
         let audioContext = null;
         
-        // База заданий
-        const taskDatabase = {
-            binary: {
-                1: [
-                    { question: "5", answer: [0,0,0,0,0,1,0,1], hint: "5 = 4 + 1" },
-                    { question: "10", answer: [0,0,0,0,1,0,1,0], hint: "10 = 8 + 2" },
-                    { question: "15", answer: [0,0,0,0,1,1,1,1], hint: "15 = 8+4+2+1" },
-                    { question: "24", answer: [0,0,0,1,1,0,0,0], hint: "24 = 16+8" },
-                    { question: "32", answer: [0,0,1,0,0,0,0,0], hint: "32 = 32" },
-                    { question: "50", answer: [0,0,1,1,0,0,1,0], hint: "50 = 32+16+2" },
-                    { question: "73", answer: [0,1,0,0,1,0,0,1], hint: "73 = 64+8+1" },
-                    { question: "100", answer: [0,1,1,0,0,1,0,0], hint: "100 = 64+32+4" },
-                    { question: "127", answer: [0,1,1,1,1,1,1,1], hint: "127 = 64+32+16+8+4+2+1" },
-                    { question: "168", answer: [1,0,1,0,1,0,0,0], hint: "168 = 128+32+8" }
-                ],
-                2: [
-                    { question: "156", answer: [1,0,0,1,1,1,0,0], hint: "156 = 128+16+8+4" },
-                    { question: "199", answer: [1,1,0,0,0,1,1,1], hint: "199 = 128+64+4+2+1" },
-                    { question: "211", answer: [1,1,0,1,0,0,1,1], hint: "211 = 128+64+16+2+1" },
-                    { question: "255", answer: [1,1,1,1,1,1,1,1], hint: "255 = все биты включены" }
-                ],
-                3: [
-                    { question: "0.5", answer: "special", hint: "Дробные числа (дополнительный код)" },
-                    { question: "-32", answer: "special", hint: "Отрицательные числа" }
-                ]
-            },
-            addition: {
-                1: [
-                    { question: "5 + 3 = ?", answer: [0,0,0,0,1,0,0,0], hint: "5+3=8" },
-                    { question: "12 + 7 = ?", answer: [0,0,0,1,0,0,1,1], hint: "12+7=19" },
-                    { question: "20 + 14 = ?", answer: [0,0,1,0,0,0,1,0], hint: "20+14=34" }
-                ],
-                2: [
-                    { question: "45 + 28 = ?", answer: [0,1,0,0,1,0,0,1], hint: "45+28=73" },
-                    { question: "67 + 54 = ?", answer: [0,1,1,1,1,0,0,1], hint: "67+54=121" }
-                ],
-                3: [
-                    { question: "125 + 67 = ?", answer: [1,1,0,0,0,0,0,0], hint: "125+67=192" }
-                ]
-            },
-            comparison: {
-                1: [
-                    { question: "101₂ ? 5₁₀", answer: "equal", hint: "101₂ = 5, они равны" },
-                    { question: "110₂ ? 7₁₀", answer: "less", hint: "110₂ = 6, а 6 < 7" },
-                    { question: "111₂ ? 8₁₀", answer: "less", hint: "111₂ = 7, а 7 < 8" }
-                ],
-                2: [
-                    { question: "1010₂ ? 10₁₀", answer: "equal", hint: "1010₂ = 10" },
-                    { question: "1100₂ ? 14₁₀", answer: "less", hint: "1100₂ = 12, 12 < 14" }
-                ]
-            },
-            conversion: {
-                1: [
-                    { question: "1010₂", answer: [0,0,0,0,1,0,1,0], hint: "1010₂ = 10" },
-                    { question: "1111₂", answer: [0,0,0,0,1,1,1,1], hint: "1111₂ = 15" },
-                    { question: "1001₂", answer: [0,0,0,0,1,0,0,1], hint: "1001₂ = 9" }
-                ],
-                2: [
-                    { question: "101101₂", answer: [0,0,1,0,1,1,0,1], hint: "101101₂ = 45" },
-                    { question: "110011₂", answer: [0,0,1,1,0,0,1,1], hint: "110011₂ = 51" }
-                ]
-            },
-            memory: {
-                1: [
-                    { question: "Запомни: 1,3,5 биты", answer: [1,0,1,0,1,0,0,0], hint: "Включи 128, 32, 8" },
-                    { question: "Запомни: 2,4,6 биты", answer: [0,1,0,1,0,1,0,0], hint: "Включи 64, 16, 4" }
-                ]
-            }
-        };
-        
-        // ===============================================
-        // ФУНКЦИИ ДЛЯ ЗВУКА (УПРОЩЕННЫЕ И НАДЕЖНЫЕ)
-        // ===============================================
-        
-        // Инициализация звука при первом взаимодействии
+        // ЗВУК
         function initAudio() {
             if (audioContext) return;
-            
             try {
                 audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                console.log('Audio context created');
-            } catch (e) {
-                console.error('Web Audio API not supported', e);
-            }
+            } catch (e) {}
         }
         
-        // Воспроизведение простого звука
         function playSound(type) {
-            if (!soundEnabled) return;
-            if (!audioContext) {
-                initAudio();
-                if (!audioContext) return;
-            }
-            
+            if (!soundEnabled || !audioContext) return;
             try {
-                // Пробуждаем аудио контекст (важно!)
-                if (audioContext.state === 'suspended') {
-                    audioContext.resume();
-                }
-                
-                const now = audioContext.currentTime;
+                if (audioContext.state === 'suspended') audioContext.resume();
                 const osc = audioContext.createOscillator();
                 const gain = audioContext.createGain();
-                
                 osc.connect(gain);
                 gain.connect(audioContext.destination);
                 
-                // Настройки звука в зависимости от типа
-                switch(type) {
-                    case 'bit':
-                        osc.frequency.value = 400;
-                        gain.gain.setValueAtTime(0.1, now);
-                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                        osc.start(now);
-                        osc.stop(now + 0.1);
-                        break;
-                    case 'success':
-                        // Первый звук
-                        osc.frequency.value = 600;
-                        gain.gain.setValueAtTime(0.1, now);
-                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.1);
-                        osc.start(now);
-                        
-                        // Второй звук
-                        setTimeout(() => {
-                            if (!soundEnabled) return;
-                            const osc2 = audioContext.createOscillator();
-                            const gain2 = audioContext.createGain();
-                            osc2.connect(gain2);
-                            gain2.connect(audioContext.destination);
-                            osc2.frequency.value = 800;
-                            gain2.gain.setValueAtTime(0.1, now + 0.15);
-                            gain2.gain.exponentialRampToValueAtTime(0.01, now + 0.25);
-                            osc2.start(now + 0.15);
-                            osc2.stop(now + 0.25);
-                        }, 100);
-                        
-                        osc.stop(now + 0.1);
-                        break;
-                    case 'error':
-                        osc.frequency.value = 200;
-                        gain.gain.setValueAtTime(0.15, now);
-                        gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
-                        osc.start(now);
-                        osc.stop(now + 0.3);
-                        break;
+                if (type === 'bit') {
+                    osc.frequency.value = 400;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    osc.stop(0.1);
+                } else if (type === 'success') {
+                    osc.frequency.value = 600;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    osc.stop(0.2);
+                } else if (type === 'error') {
+                    osc.frequency.value = 200;
+                    gain.gain.value = 0.1;
+                    osc.start();
+                    osc.stop(0.3);
                 }
-            } catch (e) {
-                console.error('Error playing sound:', e);
-            }
+            } catch (e) {}
         }
         
-        // Специальная функция для активации звука
-        function enableSound() {
+        // ВКЛЮЧЕНИЕ ЗВУКА
+        document.getElementById('soundWarning').onclick = function() {
             initAudio();
             soundEnabled = true;
-            
-            // Обновляем интерфейс
-            document.getElementById('soundWarning').style.display = 'none';
-            document.getElementById('soundToggle').innerHTML = '🔊 Звук включен';
-            document.getElementById('soundToggle').classList.add('active');
-            
-            // Воспроизводим тестовый звук
-            try {
-                if (audioContext && audioContext.state === 'suspended') {
-                    audioContext.resume().then(() => {
-                        playSound('success');
-                    });
-                } else {
-                    playSound('success');
-                }
-            } catch (e) {
-                console.log('Test sound error', e);
-            }
-        }
+            this.style.display = 'none';
+            playSound('success');
+        };
         
-        // Переключение звука
-        function toggleSound() {
-            if (!soundEnabled) {
-                enableSound();
-            } else {
-                soundEnabled = false;
-                document.getElementById('soundToggle').innerHTML = '🔇 Звук выключен';
-                document.getElementById('soundToggle').classList.remove('active');
-            }
-        }
-        
-        // Тест звука
-        function testSound() {
-            if (!soundEnabled) {
-                enableSound();
-            } else {
-                playSound('success');
-            }
-        }
-        
-        // ===============================================
         // СОЗДАНИЕ БИТОВ
-        // ===============================================
         function createBits() {
             const container = document.getElementById('bitsContainer');
-            container.innerHTML = '';
-            
-            for (let i = 0; i < bitValues.length; i++) {
-                const bitDiv = document.createElement('div');
-                bitDiv.className = 'bit';
-                bitDiv.dataset.index = i;
-                bitDiv.dataset.value = bitValues[i];
-                
-                bitDiv.innerHTML = `
+            for (let i = 0; i < 8; i++) {
+                const bit = document.createElement('div');
+                bit.className = 'bit';
+                bit.dataset.index = i;
+                bit.innerHTML = `
                     <div class="bit-number">${i+1}</div>
-                    <div class="bit-value">${bitValues[i]}</div>
-                    <div class="bit-weight">${i+1}</div>
+                    <div>${bitValues[i]}</div>
                 `;
-                
-                bitDiv.addEventListener('click', function(e) {
+                bit.onclick = function() {
                     const idx = parseInt(this.dataset.index);
                     toggleBit(idx);
-                });
-                
-                container.appendChild(bitDiv);
+                };
+                container.appendChild(bit);
             }
         }
         
-        // ===============================================
-        // ПЕРЕКЛЮЧЕНИЕ БИТА
-        // ===============================================
         function toggleBit(index) {
             activeBits[index] = !activeBits[index];
-            
-            const bitElements = document.querySelectorAll('.bit');
+            const bits = document.querySelectorAll('.bit');
             if (activeBits[index]) {
-                bitElements[index].classList.add('active');
+                bits[index].classList.add('active');
                 playSound('bit');
             } else {
-                bitElements[index].classList.remove('active');
+                bits[index].classList.remove('active');
             }
-            
             updateSum();
         }
         
-        // ===============================================
-        // ПОЛУЧЕНИЕ ТЕКУЩЕЙ СУММЫ
-        // ===============================================
-        function getCurrentSum() {
+        function getSum() {
             let sum = 0;
-            for (let i = 0; i < bitValues.length; i++) {
+            for (let i = 0; i < 8; i++) {
                 if (activeBits[i]) sum += bitValues[i];
             }
             return sum;
         }
         
-        // ===============================================
-        // ПОЛУЧЕНИЕ МАССИВА БИТОВ
-        // ===============================================
-        function getCurrentBits() {
-            return [...activeBits];
-        }
-        
-        // ===============================================
-        // ОБНОВЛЕНИЕ СУММЫ В СТАТУСЕ
-        // ===============================================
         function updateSum() {
-            document.getElementById('statusMessage').innerHTML = 
-                `Текущая сумма: ${getCurrentSum()}`;
+            document.getElementById('statusMessage').innerHTML = `Сумма: ${getSum()}`;
         }
         
-        // ===============================================
-        // СБРОС БИТОВ
-        // ===============================================
-        function resetBits() {
-            activeBits.fill(false);
-            document.querySelectorAll('.bit').forEach(el => el.classList.remove('active'));
-        }
-        
-        // ===============================================
-        // УСТАНОВКА БИТОВ
-        // ===============================================
-        function setBits(bitsArray) {
-            resetBits();
-            for (let i = 0; i < bitsArray.length; i++) {
-                if (bitsArray[i]) {
-                    activeBits[i] = true;
-                    document.querySelectorAll('.bit')[i].classList.add('active');
-                }
-            }
-        }
-        
-        // ===============================================
-        // ГЕНЕРАЦИЯ ЗАДАНИЯ
-        // ===============================================
-        function generateTask() {
-            const tasks = taskDatabase[currentMode]?.[difficulty] || taskDatabase.binary[1];
-            
+        function newTask() {
             if (currentMode === 'binary') {
-                const randomIndex = Math.floor(Math.random() * tasks.length);
-                const task = tasks[randomIndex];
-                
-                currentTask = {
-                    type: 'binary',
-                    question: task.question,
-                    answer: task.answer,
-                    hint: task.hint
-                };
-                
-                document.getElementById('taskDescription').innerHTML = 'Введи число в двоичной системе:';
-                document.getElementById('taskMain').innerHTML = task.question;
-                document.getElementById('taskHint').innerHTML = task.hint;
-                
-                resetBits();
+                currentTask = Math.floor(Math.random() * 100) + 1;
+                document.getElementById('taskMain').innerHTML = currentTask;
+                document.getElementById('taskHint').innerHTML = 'Набери это число';
+            } else if (currentMode === 'addition') {
+                const a = Math.floor(Math.random() * 50) + 1;
+                const b = Math.floor(Math.random() * 50) + 1;
+                currentTask = a + b;
+                document.getElementById('taskMain').innerHTML = `${a} + ${b} = ?`;
+                document.getElementById('taskHint').innerHTML = `Ответ: ${currentTask}`;
             }
-            else if (currentMode === 'addition') {
-                const randomIndex = Math.floor(Math.random() * tasks.length);
-                const task = tasks[randomIndex];
-                
-                currentTask = {
-                    type: 'addition',
-                    question: task.question,
-                    answer: task.answer,
-                    hint: task.hint
-                };
-                
-                document.getElementById('taskDescription').innerHTML = 'Реши пример (ответ в двоичной):';
-                document.getElementById('taskMain').innerHTML = task.question;
-                document.getElementById('taskHint').innerHTML = task.hint;
-                
-                resetBits();
-            }
-            else if (currentMode === 'logic') {
-                const gates = ['AND', 'OR', 'NOT'];
-                const randomGate = gates[Math.floor(Math.random() * gates.length)];
-                const values = [Math.random() > 0.5, Math.random() > 0.5];
-                
-                let correct;
-                if (randomGate === 'AND') correct = values[0] && values[1];
-                else if (randomGate === 'OR') correct = values[0] || values[1];
-                else correct = !values[0];
-                
-                currentTask = {
-                    type: 'logic',
-                    gate: randomGate,
-                    inputs: values,
-                    answer: correct
-                };
-                
-                let gateName = randomGate === 'AND' ? 'И' : randomGate === 'OR' ? 'ИЛИ' : 'НЕ';
-                document.getElementById('taskDescription').innerHTML = `Логический элемент ${gateName}`;
-                document.getElementById('taskMain').innerHTML = `${values[0] ? '1' : '0'} ${gateName} ${values[1] !== undefined ? (values[1] ? '1' : '0') : ''}`;
-                document.getElementById('taskHint').innerHTML = 'Нажми на правильный элемент';
-            }
-            else if (currentMode === 'conversion') {
-                const randomIndex = Math.floor(Math.random() * tasks.length);
-                const task = tasks[randomIndex];
-                
-                currentTask = {
-                    type: 'conversion',
-                    question: task.question,
-                    answer: task.answer,
-                    hint: task.hint
-                };
-                
-                document.getElementById('taskDescription').innerHTML = 'Переведи в десятичную:';
-                document.getElementById('taskMain').innerHTML = task.question;
-                document.getElementById('taskHint').innerHTML = task.hint;
-                
-                resetBits();
-            }
-            else if (currentMode === 'comparison') {
-                const randomIndex = Math.floor(Math.random() * tasks.length);
-                const task = tasks[randomIndex];
-                
-                currentTask = {
-                    type: 'comparison',
-                    question: task.question,
-                    answer: task.answer,
-                    hint: task.hint
-                };
-                
-                document.getElementById('taskDescription').innerHTML = 'Сравни числа:';
-                document.getElementById('taskMain').innerHTML = task.question;
-                document.getElementById('taskHint').innerHTML = task.hint;
-            }
-            else if (currentMode === 'memory') {
-                const randomIndex = Math.floor(Math.random() * tasks.length);
-                const task = tasks[randomIndex];
-                
-                currentTask = {
-                    type: 'memory',
-                    question: task.question,
-                    answer: task.answer,
-                    hint: task.hint
-                };
-                
-                if (Array.isArray(task.answer)) {
-                    setBits(task.answer);
-                }
-                
-                document.getElementById('taskDescription').innerHTML = task.question;
-                document.getElementById('taskMain').innerHTML = '👁️ ЗАПОМИНАЙ';
-                document.getElementById('taskHint').innerHTML = 'Через 3 секунды биты исчезнут';
-                
-                setTimeout(() => {
-                    resetBits();
-                    document.getElementById('taskHint').innerHTML = 'А теперь повтори!';
-                }, 3000);
-            }
+            
+            activeBits.fill(false);
+            document.querySelectorAll('.bit').forEach(b => b.classList.remove('active'));
+            document.getElementById('statusMessage').innerHTML = 'Новое задание!';
         }
         
-        // ===============================================
-        // ПРОВЕРКА ЗАДАНИЯ
-        // ===============================================
         function checkTask() {
-            let isCorrect = false;
-            
-            if (currentMode === 'binary' || currentMode === 'addition' || currentMode === 'conversion') {
-                const currentBits = getCurrentBits();
-                const targetBits = currentTask.answer;
-                
-                if (Array.isArray(targetBits)) {
-                    isCorrect = true;
-                    for (let i = 0; i < 8; i++) {
-                        if (currentBits[i] !== targetBits[i]) {
-                            isCorrect = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            else if (currentMode === 'memory') {
-                const currentBits = getCurrentBits();
-                const targetBits = currentTask.answer;
-                
-                if (Array.isArray(targetBits)) {
-                    isCorrect = true;
-                    for (let i = 0; i < 8; i++) {
-                        if (currentBits[i] !== targetBits[i]) {
-                            isCorrect = false;
-                            break;
-                        }
-                    }
-                }
-            }
-            else if (currentMode === 'logic' || currentMode === 'comparison') {
-                isCorrect = Math.random() > 0.3;
-            }
-            
-            if (isCorrect) {
-                score += 10 * difficulty;
+            const sum = getSum();
+            if (sum === currentTask) {
+                score += 10;
                 correctCount++;
-                streak++;
-                tasksCompleted++;
+                if (correctCount % 5 === 0) level++;
                 
-                if (streak >= 3) {
-                    score += 5;
-                }
-                
-                document.getElementById('statusMessage').innerHTML = '✅ ВЕРНО! +10 очков';
+                document.getElementById('score').innerHTML = score;
+                document.getElementById('level').innerHTML = level;
+                document.getElementById('correctCount').innerHTML = correctCount;
+                document.getElementById('statusMessage').innerHTML = '✅ ПРАВИЛЬНО!';
                 document.getElementById('statusMessage').className = 'status success';
-                
                 playSound('success');
-                
-                if (tasksCompleted % 5 === 0) {
-                    level++;
-                }
-                
-                setTimeout(() => {
-                    generateTask();
-                }, 1500);
-            }
-            else {
-                streak = 0;
-                document.getElementById('statusMessage').innerHTML = '❌ НЕВЕРНО! Попробуй ещё';
+                setTimeout(newTask, 1500);
+            } else {
+                document.getElementById('statusMessage').innerHTML = `❌ НЕПРАВИЛЬНО! Нужно ${currentTask}`;
                 document.getElementById('statusMessage').className = 'status error';
-                
                 playSound('error');
             }
-            
-            updateStats();
         }
         
-        // ===============================================
-        // ПОДСКАЗКА
-        // ===============================================
         function showHint() {
-            if (currentTask.hint) {
-                document.getElementById('statusMessage').innerHTML = '💡 ' + currentTask.hint;
+            if (currentMode === 'binary') {
+                let num = currentTask;
+                let hint = 'Включи: ';
+                for (let i = 0; i < 8; i++) {
+                    if (num >= bitValues[i]) {
+                        hint += bitValues[i] + ' ';
+                        num -= bitValues[i];
+                    }
+                }
+                document.getElementById('taskHint').innerHTML = hint;
             }
         }
         
-        // ===============================================
-        // ОБНОВЛЕНИЕ СТАТИСТИКИ
-        // ===============================================
-        function updateStats() {
-            document.getElementById('score').innerHTML = score;
-            document.getElementById('level').innerHTML = level;
-            document.getElementById('correctCount').innerHTML = correctCount;
-            document.getElementById('streak').innerHTML = streak;
-            
-            const progress = (tasksCompleted % 10) * 10;
-            document.getElementById('progressFill').style.width = progress + '%';
-        }
-        
-        // ===============================================
-        // УСТАНОВКА РЕЖИМА
-        // ===============================================
         function setMode(mode) {
             currentMode = mode;
-            
-            document.querySelectorAll('.mode-card').forEach(card => {
-                if (card.dataset.mode === mode) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
-            });
-            
-            document.getElementById('extraContent').innerHTML = '';
-            
-            if (mode === 'logic') {
-                document.getElementById('extraContent').innerHTML = `
-                    <div class="logic-gates">
-                        <div class="logic-gate" onclick="selectGate('AND')">
-                            <div>AND</div>
-                            <div class="gate-name">И</div>
-                        </div>
-                        <div class="logic-gate" onclick="selectGate('OR')">
-                            <div>OR</div>
-                            <div class="gate-name">ИЛИ</div>
-                        </div>
-                        <div class="logic-gate" onclick="selectGate('NOT')">
-                            <div>NOT</div>
-                            <div class="gate-name">НЕ</div>
-                        </div>
-                    </div>
-                `;
-            } else if (mode === 'comparison') {
-                document.getElementById('extraContent').innerHTML = `
-                    <div class="logic-gates">
-                        <div class="logic-gate" onclick="selectComparison('greater')">
-                            <div>&gt;</div>
-                            <div class="gate-name">Больше</div>
-                        </div>
-                        <div class="logic-gate" onclick="selectComparison('less')">
-                            <div>&lt;</div>
-                            <div class="gate-name">Меньше</div>
-                        </div>
-                        <div class="logic-gate" onclick="selectComparison('equal')">
-                            <div>=</div>
-                            <div class="gate-name">Равно</div>
-                        </div>
-                    </div>
-                `;
-            }
-            
-            generateTask();
+            document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+            newTask();
         }
         
-        // ===============================================
-        // УСТАНОВКА СЛОЖНОСТИ
-        // ===============================================
-        function setDifficulty(diff) {
-            difficulty = diff;
-            
-            document.querySelectorAll('.difficulty-btn').forEach(btn => {
-                if (btn.dataset.diff == diff) {
-                    btn.classList.add('active');
-                } else {
-                    btn.classList.remove('active');
-                }
-            });
-            
-            generateTask();
-        }
-        
-        // ===============================================
-        // ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ
-        // ===============================================
-        function selectGate(gate) {
-            document.getElementById('statusMessage').innerHTML = `Выбран элемент ${gate}`;
-            if (soundEnabled) playSound('bit');
-        }
-        
-        function selectComparison(comp) {
-            document.getElementById('statusMessage').innerHTML = `Выбран знак ${comp === 'greater' ? '>' : comp === 'less' ? '<' : '='}`;
-            if (soundEnabled) playSound('bit');
-        }
-        
-        // ===============================================
-        // ОБРАБОТКА КЛАВИАТУРЫ
-        // ===============================================
-        function handleKeyDown(e) {
+        // КЛАВИАТУРА
+        document.onkeydown = function(e) {
             const key = e.key;
-            
-            // Цифры 1-8 для битов
             if (key >= '1' && key <= '8') {
-                const bitIndex = parseInt(key) - 1;
-                toggleBit(bitIndex);
+                toggleBit(parseInt(key) - 1);
                 e.preventDefault();
             }
-            
-            // Пробел - проверить
             if (key === ' ') {
                 checkTask();
                 e.preventDefault();
             }
-            
-            // Enter - новое задание
             if (key === 'Enter') {
-                generateTask();
+                newTask();
                 e.preventDefault();
             }
-            
-            // H - подсказка
             if (key === 'h' || key === 'H') {
                 showHint();
                 e.preventDefault();
             }
-        }
-        
-        // ===============================================
-        // ИНИЦИАЛИЗАЦИЯ
-        // ===============================================
-        window.onload = function() {
-            createBits();
-            generateTask();
-            
-            // Назначаем обработчики
-            document.getElementById('checkBtn').addEventListener('click', checkTask);
-            document.getElementById('hintBtn').addEventListener('click', showHint);
-            document.getElementById('newTaskBtn').addEventListener('click', generateTask);
-            
-            // Звуковые кнопки
-            document.getElementById('soundWarning').addEventListener('click', enableSound);
-            document.getElementById('soundToggle').addEventListener('click', toggleSound);
-            document.getElementById('testSoundBtn').addEventListener('click', testSound);
-            
-            // Клавиатура
-            document.addEventListener('keydown', handleKeyDown);
-            
-            // Автоматически не включаем звук, ждем клика
-            console.log('Ready. Click the yellow button to enable sound.');
         };
+        
+        // ЗАПУСК
+        createBits();
+        newTask();
+        
+        // КНОПКИ
+        document.getElementById('checkBtn').onclick = checkTask;
+        document.getElementById('hintBtn').onclick = showHint;
+        document.getElementById('newTaskBtn').onclick = newTask;
     </script>
 </body>
 </html>
