@@ -146,7 +146,111 @@
             color: #fff;
             box-shadow: 0 0 20px #00ffaa;
         }
+         /* КНОПКА ДЛЯ СЛАБОВИДЯЩИХ */
+        .vision-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #ffaa00;
+            color: #0a1a2a;
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1000;
+            transition: all 0.3s;
+            box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
         
+        .vision-btn:hover {
+            transform: scale(1.05);
+            background: #ffcc44;
+        }
+        
+        /* РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ */
+        body.vision-mode {
+            background: #000000 !important;
+        }
+        
+        body.vision-mode .container {
+            background: #1a1a2e !important;
+            border-color: #ffff00 !important;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.4) !important;
+        }
+        
+        body.vision-mode .container,
+        body.vision-mode .container * {
+            border-color: #ffff00 !important;
+        }
+        
+        body.vision-mode h1,
+        body.vision-mode .class-title,
+        body.vision-mode .task-main {
+            color: #ffff00 !important;
+            text-shadow: 0 0 10px #ffff00 !important;
+        }
+        
+        body.vision-mode .mode-card {
+            background: #2a2a3e !important;
+            color: #ffffcc !important;
+        }
+        
+        body.vision-mode .mode-card.active {
+            background: #444466 !important;
+            box-shadow: 0 0 20px #ffff00 !important;
+        }
+        
+        body.vision-mode .btn-check {
+            background: #ffff00 !important;
+            color: #000000 !important;
+        }
+        
+        body.vision-mode .status {
+            background: #2a2a3e !important;
+        }
+        
+        body.vision-mode .bit {
+            background: #2a2a3e !important;
+        }
+        
+        body.vision-mode .bit.active {
+            background: #ffff00 !important;
+            color: #000000 !important;
+        }
+        
+        /* УВЕЛИЧЕННЫЙ ШРИФТ */
+        body.font-large {
+            font-size: 20px;
+        }
+        
+        body.font-large h1 {
+            font-size: 3.5rem;
+        }
+        
+        body.font-large .task-main {
+            font-size: 3rem;
+        }
+        
+        body.font-large .bit {
+            font-size: 2.5rem;
+            min-width: 100px;
+            height: 130px;
+        }
+        
+        body.font-large .btn {
+            font-size: 1.5rem;
+            padding: 20px 30px;
+        }
+        
+        body.font-large .stats-panel {
+            font-size: 1.6rem;
+        }
+        
+        body.font-large .stat-value {
+            font-size: 2.5rem;
+        }
         /* Задание */
         .task-panel {
             background: #0f1a2f;
@@ -314,6 +418,7 @@
 </head>
 <body>
     <div class="container">
+        <button class="vision-btn" id="visionBtn">👁️ РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ</button>
         <h1>⚡ ДВОИЧНЫЙ ДОЗОР ⚡</h1>
         <div class="subtitle">информатика 7-9 классы • подготовка к ОГЭ</div>
         
@@ -390,6 +495,37 @@
     </div>
 
     <script>
+         // =============== КНОПКА ДЛЯ СЛАБОВИДЯЩИХ ===============
+        let visionMode = false;
+        let largeFont = false;
+        
+        document.getElementById('visionBtn').onclick = function() {
+            // Переключаем режим для слабовидящих
+            if (!visionMode) {
+                document.body.classList.add('vision-mode');
+                this.innerHTML = '👁️ ВЫКЛЮЧИТЬ РЕЖИМ';
+                this.style.background = '#ffff00';
+                visionMode = true;
+            } else {
+                document.body.classList.remove('vision-mode');
+                this.innerHTML = '👁️ РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ';
+                this.style.background = '#ffaa00';
+                visionMode = false;
+            }
+        };
+        
+        // Двойной клик по кнопке - увеличить шрифт
+        document.getElementById('visionBtn').ondblclick = function() {
+            if (!largeFont) {
+                document.body.classList.add('font-large');
+                this.innerHTML = '🔍 УВЕЛИЧЕННЫЙ ШРИФТ (двойной клик для отмены)';
+                largeFont = true;
+            } else {
+                document.body.classList.remove('font-large');
+                this.innerHTML = visionMode ? '👁️ ВЫКЛЮЧИТЬ РЕЖИМ' : '👁️ РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ';
+                largeFont = false;
+            }
+        };
         // =============== НАСТРОЙКИ ===============
         const bitValues = [128, 64, 32, 16, 8, 4, 2, 1];
         let activeBits = new Array(8).fill(false);
