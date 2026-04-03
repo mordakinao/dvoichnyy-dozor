@@ -146,7 +146,7 @@
             color: #fff;
             box-shadow: 0 0 20px #00ffaa;
         }
-         /* КНОПКА ДЛЯ СЛАБОВИДЯЩИХ */
+          /* КНОПКА ДЛЯ СЛАБОВИДЯЩИХ */
         .vision-btn {
             position: fixed;
             top: 20px;
@@ -162,6 +162,84 @@
             z-index: 1000;
             transition: all 0.3s;
             box-shadow: 0 0 10px rgba(0,0,0,0.5);
+        }
+        
+        .vision-btn:hover {
+            transform: scale(1.05);
+            background: #ffcc44;
+        }
+        
+        /* РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ */
+        body.vision-mode {
+            background: #000000 !important;
+        }
+        
+        body.vision-mode .container {
+            background: #1a1a2e !important;
+            border-color: #ffff00 !important;
+            box-shadow: 0 0 50px rgba(255, 255, 0, 0.4) !important;
+        }
+        
+        body.vision-mode .container,
+        body.vision-mode .container * {
+            border-color: #ffff00 !important;
+        }
+        
+        body.vision-mode h1,
+        body.vision-mode .class-title,
+        body.vision-mode .task-main {
+            color: #ffff00 !important;
+            text-shadow: 0 0 10px #ffff00 !important;
+        }
+        
+        body.vision-mode .mode-card {
+            background: #2a2a3e !important;
+            color: #ffffcc !important;
+        }
+        
+        body.vision-mode .mode-card.active {
+            background: #444466 !important;
+            box-shadow: 0 0 20px #ffff00 !important;
+        }
+        
+        body.vision-mode .btn-check {
+            background: #ffff00 !important;
+            color: #000000 !important;
+        }
+        
+        body.vision-mode .status {
+            background: #2a2a3e !important;
+        }
+        
+        body.vision-mode .bit {
+            background: #2a2a3e !important;
+        }
+        
+        body.vision-mode .bit.active {
+            background: #ffff00 !important;
+            color: #000000 !important;
+        }
+        
+        /* УВЕЛИЧЕННЫЙ ШРИФТ - ПРОСТОЙ И РАБОЧИЙ */
+        body.font-large,
+        body.font-large * {
+            font-size: 1.3em !important;
+        }
+        
+        /* Отдельные элементы, которые не масштабируются через em */
+        body.font-large .bit {
+            min-width: 100px !important;
+            height: 130px !important;
+        }
+        
+        body.font-large .btn {
+            padding: 20px 35px !important;
+            min-width: 220px !important;
+        }
+        
+        body.font-large .vision-btn {
+            font-size: 1rem !important;
+            padding: 15px 25px !important;
         }
         
         .vision-btn:hover {
@@ -495,7 +573,7 @@
     </div>
 
     <script>
-         // =============== КНОПКА ДЛЯ СЛАБОВИДЯЩИХ ===============
+          // =============== КНОПКА ДЛЯ СЛАБОВИДЯЩИХ ===============
         let visionMode = false;
         let largeFont = false;
         
@@ -515,14 +593,17 @@
         };
         
         // Двойной клик по кнопке - увеличить шрифт
-        document.getElementById('visionBtn').ondblclick = function() {
+        document.getElementById('visionBtn').ondblclick = function(e) {
+            e.stopPropagation();
             if (!largeFont) {
                 document.body.classList.add('font-large');
                 this.innerHTML = '🔍 УВЕЛИЧЕННЫЙ ШРИФТ (двойной клик для отмены)';
+                this.style.background = '#00cc44';
                 largeFont = true;
             } else {
                 document.body.classList.remove('font-large');
                 this.innerHTML = visionMode ? '👁️ ВЫКЛЮЧИТЬ РЕЖИМ' : '👁️ РЕЖИМ ДЛЯ СЛАБОВИДЯЩИХ';
+                this.style.background = visionMode ? '#ffff00' : '#ffaa00';
                 largeFont = false;
             }
         };
